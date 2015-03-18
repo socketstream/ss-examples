@@ -7,4 +7,5 @@ We will soon be adding:
 * React App in CoffeeScript
 * Using Express 4
 * Angular JS with webpack
+* Using Ractive, Jade, Koa
 
