@@ -1,13 +1,12 @@
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> vars
 
-// var ssStylus, ractiveOptions = {};
 var http = require('http');
 var ss = require('socketstream');
 var ssJade = require('ss-jade');
+var ssStylus = require('ss-stylus');
 
 var config = require('./server/services/config');
-// console.log(config.get('port'));
 // var dbService = require('./server/services/db');
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> db services
@@ -32,22 +31,49 @@ var config = require('./server/services/config');
 // 	res.serveClient('main');
 // });
 
-// Code Formatters
-ss.client.formatters.add(require('ss-jade'));
-ss.client.formatters.add(require('ss-stylus'));
 
-// Use server-side compiled Hogan (Mustache) templates. Others engines available
-// ss.client.templateEngine.use(require('ss-hogan'));
+// - - - - - - - - - - - - - - - - - - - - - - - - >>>>> HTML FORMATTER
+
+// if (ss.env === 'development') {
+// 	ssJade.addCompileOptions({
+// 		pretty: true
+// 	});
+// }
+ss.client.formatters.add(ssJade, {
+	locals: {
+		// title: 'Arx :: Home',
+		// mobileAgents: JSON.stringify(require(rootDir + '/data/mobile-agents')),
+		// SubAtomic: JSON.stringify(SubAtomic.getGlobals()),
+		// mobile: false
+	},
+});
+
+// - - - - - - - - - - - - - - - - - - - - - - - - >>>>> STYLE FORMATTER
+
+
+// ssStylus.prependStylus(
+// 	'$cloudPath = \'' + cloudPath + '/\'\n' +
+// 	'$cache = \'' + SubAtomic.get('CACHE') + '\''
+// );
+ss.client.formatters.add(ssStylus);
+
+// - - - - - - - - - - - - - - - - - - - - - - - - >>>>> TEMPLATE ENGINE
+
+ss.client.templateEngine.use(require('ss-ractive'), '/', {
+	pretty: ss.env === 'production' ? false : true
+});
+
+// - - - - - - - - - - - - - - - - - - - - - - - - >>>>> PACK ASSETS
 
 // Minimize and pack assets if you type: SS_ENV=production node app.js
 if (ss.env === 'production') {
 	ss.client.packAssets();
 }
 
-// Start web server
+// start web server
 var server = http.Server(ss.http.middleware);
 server.listen(config.get('port'));
 
-// Start SocketStream
+// start socketstream
 ss.start(server);
 
