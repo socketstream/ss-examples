@@ -1,0 +1,24 @@
+{
+	// Details: https://github.com/victorporof/Sublime-JSHint#using-your-own-jshintrc-options
+	// Example: https://github.com/jshint/jshint/blob/master/examples/.jshintrc
+	// Documentation: http://www.jshint.com/docs/
+
+	"camelcase": true,
+	"curly": true,
+	"indent": 4,
+
+	// relaxing
+	"strict": false,
+
+	// environments
+	"browser": false, // web browser (window, document, etc)
+	"devel": true, // development/debugging (alert, confirm, etc)
+	"smarttabs": false,
+	"node": true,
+
+	// globals
+	"globals": {
+		"ss": true,
+		"Ractive": true
+	}
+}
