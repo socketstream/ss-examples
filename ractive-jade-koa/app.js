@@ -16,7 +16,7 @@ var config = require('./server/services/config');
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> ROUTES
 
-// require('./server/services/routes')(ss);
+require('./server/services/routes')(ss);
 
 // // Define a single-page client called 'main'
 // ss.client.define('main', {
