@@ -78,3 +78,48 @@ server.listen(config.get('port'));
 // start socketstream
 ss.start(server);
 
+
+
+
+
+
+
+
+
+
+
+// // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> PACK ASSETS
+
+// if (ss.env === 'production') {
+// 	ss.client.packAssets({
+// 		cdn: {
+// 			css: function(file) {
+// 				return cloudPath + file.path;
+// 			},
+// 			js: function(file) {
+// 				return cloudPath + file.path;
+// 			}
+// 		}
+// 	});
+// 	// var oneYear = 31557600000;
+// 	// app.use(express.static(__dirname + '/public', { maxAge: oneYear }));
+// 	// app.use(express.errorHandler());
+// }
+
+
+
+
+// // ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ --- >>>
+// // ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ --- >>> START THE SERVER
+// // ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ --- >>>
+
+// // server = app.listen(port, function() {
+// // 	process.on('uncaughtException', function(err) { console.log(err); });
+// // 	var local = server.address();
+// // 	console.log('Express server listening @ http://%s:%d/ in %s mode', local.address, local.port, app.settings.env);
+// // 	// Start SocketStream
+// // 	ss.start(server);
+// // 	console.log('Ready...set...SubAtomic!'.green);
+// // });
+
+
