@@ -1,3 +1,4 @@
+'use strict';
 
 // >> CONFIGURATION
 // >> include this file for access to (`.get/.set`) configuration variables

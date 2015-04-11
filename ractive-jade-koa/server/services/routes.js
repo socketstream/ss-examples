@@ -1,6 +1,6 @@
+'use strict';
 
 module.exports = function(ss) {
-
 	// TODO: move KOA into the main app...
 
 	var session = require('koa-session');
@@ -14,9 +14,9 @@ module.exports = function(ss) {
 	if (ss.env === 'development') {
 		app.use(function*(next) {
 			// console.log(this);
-			var start = new Date;
+			var start = new Date();
 			yield next;
-			var ms = new Date - start;
+			var ms = new Date() - start;
 			console.log('%s %s - %s', this.method, this.url, ms);
 		});
 	}
@@ -26,7 +26,7 @@ module.exports = function(ss) {
 		var n = this.session.views || 0;
 		this.session.views = ++n;
 		this.body = n + ' views';
-	})
+	});
 
 	app.listen(3333);
 
