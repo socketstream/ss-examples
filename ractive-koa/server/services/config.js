@@ -3,6 +3,7 @@
 // >> CONFIGURATION
 // >> include this file for access to (`.get/.set`) configuration variables
 
+var key;
 var nconf = require('nconf');
 var env = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
 var config = {

@@ -1,42 +1,50 @@
 'use strict';
 
-module.exports = function(ss) {
+// var config = require('./config');
+
+module.exports = function(ss, app, router) {
 	// TODO: move KOA into the main app...
 
-	var session = require('koa-session');
-	var koa = require('koa');
-	var app = koa();
+	// x-response-time
 
-	app.keys = [require('./config').get('session:secret')];
-	app.use(session(app));
-
-	// logger
-	if (ss.env === 'development') {
-		app.use(function*(next) {
-			// console.log(this);
-			var start = new Date();
-			yield next;
-			var ms = new Date() - start;
-			console.log('%s %s - %s', this.method, this.url, ms);
-		});
-	}
-
-	// test response...
-	app.use(function*() {
-		var n = this.session.views || 0;
-		this.session.views = ++n;
-		this.body = n + ' views';
+	app.use(function*(next) {
+		var start = new Date();
+		yield next;
+		var ms = new Date() - start;
+		this.set('X-Response-Time', ms + 'ms');
 	});
 
-	app.listen(3333);
+	// logger
 
-	// TODO: figure out how to append the stack
+	app.use(function*(next) {
+		var start = new Date();
+		yield next;
+		var ms = new Date() - start;
+		console.log('%s %s - %s', this.method, this.url, ms);
+	});
 
-	// // Append SocketStream middleware to the stack
-	// app.stack = ss.http.middleware.stack.concat(app.stack)
+	// response
 
+	// app.use(function*() {
+	// 	this.body = 'Hello World';
+	// });
 
-	// console.log(app.__proto__);
-	// console.log(session);
+	router.get('/test', function*(next) {
+		this.body = 'Test...test...test...';
+	});
+
+	// // Define a single-page client called 'main'
+	// ss.client.define('main', {
+	// 	view: 'app.jade',
+	// 	css: ['app.styl'],
+	// 	code: ['libs/jquery.min.js', 'app'],
+	// 	tmpl: '*'
+	// });
+
+	// // Serve this client on the root URL
+	// ss.http.route('/', function(req, res) {
+	// 	res.serveClient('main');
+	// });
+
 
 };

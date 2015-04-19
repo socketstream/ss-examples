@@ -6,7 +6,7 @@ module.exports = {
 	name: 'demo',
 	port: 4444,
 	session: {
-		secret: 'some secret here'
+		secret: 'mcJu*(93_0LA4z6rWEgBw8{N3A"1-+xk2e-EiK[JmQl5*DgMmJ'
 	}
 
 };

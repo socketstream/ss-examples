@@ -7,6 +7,13 @@ var ss = require('socketstream');
 var ssJade = require('ss-jade');
 var ssStylus = require('ss-stylus');
 
+var session = require('koa-session');
+var koa = require('koa');
+var app = koa();
+var router = require('koa-router')();
+
+// - - - - - - - - - - - - - - - - - - - - - - - - >>>>> config
+
 var config = require('./server/services/config');
 // var dbService = require('./server/services/db');
 
@@ -15,23 +22,16 @@ var config = require('./server/services/config');
 // dbService.connectMongoose();
 // dbService.connectRedis();
 
-// - - - - - - - - - - - - - - - - - - - - - - - - >>>>> ROUTES
+// - - - - - - - - - - - - - - - - - - - - - - - - >>>>> ROUTING & KOA
 
-require('./server/services/routes')(ss);
+app.keys = [config.get('session:secret')];
+app.use(session(app));
+app.use(router.routes())
+app.use(router.allowedMethods());
 
-// // Define a single-page client called 'main'
-// ss.client.define('main', {
-// 	view: 'app.jade',
-// 	css: ['app.styl'],
-// 	code: ['libs/jquery.min.js', 'app'],
-// 	tmpl: '*'
-// });
-
-// // Serve this client on the root URL
-// ss.http.route('/', function(req, res) {
-// 	res.serveClient('main');
-// });
-
+// Append SocketStream middleware to the stack
+ss.http.middleware.prepend(app.callback());
+require('./server/services/routes')(ss, app, router);
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> HTML FORMATTER
 
