@@ -7,6 +7,7 @@ var ss = require('socketstream');
 var ssJade = require('ss-jade');
 var ssStylus = require('ss-stylus');
 var koa = require('koa');
+var connect = require('koa-connect');
 var session = require('koa-session');
 var router = require('koa-router')();
 var app = koa();
@@ -61,27 +62,20 @@ app.use(router.allowedMethods());
 
 // Append SocketStream middleware to the stack
 require('./server/services/routes')(ss, app, router);
+app.use(connect(ss.http.middleware));
+// app.use(function*(next) {
+// 	yield ss.http.middleware.bind(null, this.req, this.res);
+// 	yield next;
+// });
+
 // ss.http.middleware.append(app.callback());
 
-	// ss.http.middleware.prepend(function(req, res, next) {
-	// 	next();
-	// });
+// ss.http.middleware.append(function(req, res, next) {
+// 	app.callback.bind(this, req, res);
+// 	next();
+// });
 
-	// function middleware(req, res, next) {
-	// 	console.log('connect');
-	// 	next();
-	// }
-	// app.use(connect(ss.http.middleware));
-
-
-	// console.log(ss.http.middleware);
-
-	// app.use(function*(next) {
-	// 	yield ss.http.middleware.bind(null, this.req, this.res);
-	// 	yield next;
-	// });
-
-		// console.log(router.__proto__);
+	
 
 	// router.stack.middleware = router.stack.middleware.concat(ss.http.middleware.stack);
 
@@ -104,6 +98,7 @@ if (ss.env === 'production') {
 }
 
 ss.start(http.createServer(app.callback()).listen(config.get('port')));
+// ss.start(http.createServer(ss.http.middleware).listen(config.get('port')));
 
 // var server = app.listen(config.get('port'), function() {
 // 	process.on('uncaughtException', function(err) { console.log(err); });
