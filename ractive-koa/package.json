@@ -12,7 +12,7 @@
     "koa-router": "^4.3.2",
     "koa-session": "^3.1.0",
     "nconf": "^0.7.1",
-    "socketstream": "0.3.x",
+    "socketstream": "^0.3.12",
     "ss-jade": "^0.1.3",
     "ss-ractive": "0.0.4",
     "ss-stylus": "^0.1.9"
