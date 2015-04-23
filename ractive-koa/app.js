@@ -2,7 +2,6 @@
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> vars
 
-var http = require('http');
 var ss = require('socketstream');
 var ssJade = require('ss-jade');
 var ssStylus = require('ss-stylus');
