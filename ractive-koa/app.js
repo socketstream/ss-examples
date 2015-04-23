@@ -6,11 +6,10 @@ var http = require('http');
 var ss = require('socketstream');
 var ssJade = require('ss-jade');
 var ssStylus = require('ss-stylus');
-
-var session = require('koa-session');
 var koa = require('koa');
-var app = koa();
+var session = require('koa-session');
 var router = require('koa-router')();
+var app = koa();
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> config
 
@@ -21,17 +20,6 @@ var config = require('./server/services/config');
 
 // dbService.connectMongoose();
 // dbService.connectRedis();
-
-// - - - - - - - - - - - - - - - - - - - - - - - - >>>>> ROUTING & KOA
-
-app.keys = [config.get('session:secret')];
-app.use(session(app));
-app.use(router.routes())
-app.use(router.allowedMethods());
-
-// Append SocketStream middleware to the stack
-ss.http.middleware.prepend(app.callback());
-require('./server/services/routes')(ss, app, router);
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> HTML FORMATTER
 
@@ -64,6 +52,50 @@ ss.client.templateEngine.use(require('ss-ractive'), '/', {
 	pretty: ss.env === 'production' ? false : true
 });
 
+// - - - - - - - - - - - - - - - - - - - - - - - - >>>>> ROUTING & KOA
+
+app.keys = [config.get('session:secret')];
+app.use(session(app));
+app.use(router.routes());
+app.use(router.allowedMethods());
+
+// Append SocketStream middleware to the stack
+require('./server/services/routes')(ss, app, router);
+// ss.http.middleware.append(app.callback());
+
+	// ss.http.middleware.prepend(function(req, res, next) {
+	// 	next();
+	// });
+
+	// function middleware(req, res, next) {
+	// 	console.log('connect');
+	// 	next();
+	// }
+	// app.use(connect(ss.http.middleware));
+
+
+	// console.log(ss.http.middleware);
+
+	// app.use(function*(next) {
+	// 	yield ss.http.middleware.bind(null, this.req, this.res);
+	// 	yield next;
+	// });
+
+		// console.log(router.__proto__);
+
+	// router.stack.middleware = router.stack.middleware.concat(ss.http.middleware.stack);
+
+	// ss.http.middleware.append(router.middleware());
+
+	// ss.http.middleware.bind(null, app.callback, app.callback);
+
+	// ss.http.middleware.stack.push(app.callback());
+
+	// app.stack = app.stack.concat(ss.http.middleware.stack)
+
+	// ss.http.middleware.stack = 
+
+
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> PACK ASSETS
 
 // Minimize and pack assets if you type: SS_ENV=production node app.js
@@ -71,14 +103,16 @@ if (ss.env === 'production') {
 	ss.client.packAssets();
 }
 
-// start web server
-var server = http.Server(ss.http.middleware);
-server.listen(config.get('port'));
+ss.start(http.createServer(app.callback()).listen(config.get('port')));
 
-// start socketstream
-ss.start(server);
-
-
+// var server = app.listen(config.get('port'), function() {
+// 	process.on('uncaughtException', function(err) { console.log(err); });
+// 	var local = server.address();
+// 	console.log('Koa server listening @ http://%s:%d/ in %s mode', local.address, local.port, app.env);
+// 	// Start SocketStream
+// 	ss.start(server);
+// 	console.log('Ready...set...SubAtomic!'.green);
+// });
 
 
 
