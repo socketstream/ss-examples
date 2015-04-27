@@ -1,5 +1,5 @@
 {
-  "name": "ractive-jade-koa",
+  "name": "ractive-koa",
   "description": "An awesome real time application",
   "version": "0.0.1",
   "author": "Robert Hall <@arxpoetica>",
@@ -12,9 +12,9 @@
     "koa-router": "^4.3.2",
     "koa-session": "^3.1.0",
     "nconf": "^0.7.1",
-    "socketstream": "^0.3.12",
-    "ss-jade": "^0.1.3",
-    "ss-ractive": "0.0.4",
+    "socketstream": ">= 0.4.x",
+    "ss-jade": "https://github.com/arxpoetica/ss-jade/tarball/master",
+    "ss-ractive": "0.x.x",
     "ss-stylus": "^0.1.9"
   },
   "scripts": {

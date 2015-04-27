@@ -24,18 +24,11 @@ var config = require('./server/services/config');
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> HTML FORMATTER
 
-// if (ss.env === 'development') {
-// 	ssJade.addCompileOptions({
-// 		pretty: true
-// 	});
-// }
 ss.client.formatters.add(ssJade, {
 	locals: {
-		// title: 'Arx :: Home',
-		// mobileAgents: JSON.stringify(require(rootDir + '/data/mobile-agents')),
-		// SubAtomic: JSON.stringify(SubAtomic.getGlobals()),
-		// mobile: false
+		title: 'Koa Ractive SocketStream App :: Home'
 	},
+	pretty: ss.env === 'production' ? false : true
 });
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> STYLE FORMATTER
