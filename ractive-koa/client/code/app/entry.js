@@ -16,13 +16,9 @@
 
 	ss.server.on('ready', function() {
 
-		// Wait for the DOM to finish loading
-		// jQuery(function() {
+		console.info('%c SocketStream is ready.', 'color: #00c1a1;');
 
-			// Load app
-			require('/app');
-
-		// });
+		require('/app').setup();
 
 	});
 
