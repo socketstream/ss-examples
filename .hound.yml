@@ -1,0 +1,3 @@
+javascript:
+	config_file: .javascript-hint.json
+	ignore_file: .javascript_ignore
