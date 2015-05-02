@@ -1,8 +1,0 @@
-{
-	"extends": "../../.jshintrc",
-	"browserify": true,
-	"node": false,
-	"globals": {
-		"Ractive": true
-	}
-}

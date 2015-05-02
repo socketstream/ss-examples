@@ -1,0 +1,25 @@
+{
+	"strict": true,
+	"esnext": true,
+	"noyield": true,
+	"browser": false,
+	"devel": false,
+	"node": true,
+	"curly": true,
+	"forin": true,
+	"latedef": "nofunc",
+	"noarg": true,
+	"nonew": true,
+	"undef": true,
+	"unused": true,
+	"immed": true,
+	"noempty": true,
+	"newcap": true,
+	"indent": 4,
+	"quotmark": "single",
+	"camelcase": true,
+	"indent": 4,
+	"globals": {
+		"ss": true
+	}
+}
