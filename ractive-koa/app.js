@@ -54,7 +54,7 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 
 // Append SocketStream middleware to the stack
-require('./server/services/routes')(ss, app, router);
+require('./server/routes/main')(ss, app, router);
 app.use(connect(ss.http.middleware));
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> PACK ASSETS
