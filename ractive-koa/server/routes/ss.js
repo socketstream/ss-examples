@@ -1,10 +1,6 @@
 'use strict';
 
-// var config = require('./config');
-
 module.exports = function(ss, app, router) {
-
-	require('./middleware')(ss, app, router);
 
 	ss.client.define('main', {
 		view: 'app.jade',
@@ -22,7 +18,5 @@ module.exports = function(ss, app, router) {
 	router.get('/', function*(next) {
 		this.res.serveClient('main')
 	});
-
-	require('./auth')(ss, app, router);
 
 };

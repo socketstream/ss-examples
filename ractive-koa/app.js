@@ -15,7 +15,7 @@ var server;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> config
 
-var config = require('./server/services/config');
+var config = require('./server/config');
 var devMode = config.get('env') === 'development';
 // var dbService = require('./server/services/db');
 
@@ -70,7 +70,7 @@ router.use(koaJade.middleware({
 }));
 
 // Append SocketStream middleware to the stack
-require('./server/routes/main')(ss, app, router);
+require('./server/routes')(ss, app, router);
 app.use(connect(ss.http.middleware));
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> PACK ASSETS

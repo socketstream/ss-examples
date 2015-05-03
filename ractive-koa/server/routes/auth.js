@@ -7,7 +7,7 @@ module.exports = function(ss, app, router) {
 	});
 
 	router.get('/signout', function*(next) {
-		this.render('public', {}, true);
+		this.render('auth/signout', {}, true);
 	});
 
 };
