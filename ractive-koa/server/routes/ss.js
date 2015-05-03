@@ -5,7 +5,10 @@ module.exports = function(ss, app, router) {
 	ss.client.define('main', {
 		view: 'app.jade',
 		css: ['app.styl'],
-		code: ['libs/jquery.min.js', 'app'],
+		code: [
+			'../static/js/libs/jquery-2.1.3.min.js',
+			'app'
+		],
 		tmpl: '*'
 	});
 
