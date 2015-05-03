@@ -9,12 +9,14 @@ var koa = require('koa');
 var connect = require('koa-connect');
 var session = require('koa-session');
 var router = require('koa-router')();
+var koaJade = require('koa-jade');
 var app = koa();
 var server;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> config
 
 var config = require('./server/services/config');
+var devMode = config.get('env') === 'development';
 // var dbService = require('./server/services/db');
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> db services
@@ -28,7 +30,7 @@ ss.client.formatters.add(ssJade, {
 	locals: {
 		title: 'Koa Ractive SocketStream App :: Home'
 	},
-	pretty: ss.env === 'production' ? false : true
+	pretty: devMode
 });
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> STYLE FORMATTER
@@ -43,7 +45,7 @@ ss.client.formatters.add(ssStylus);
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> TEMPLATE ENGINE
 
 ss.client.templateEngine.use(require('ss-ractive'), '/', {
-	pretty: ss.env === 'production' ? false : true
+	pretty: devMode
 });
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> ROUTING & KOA
@@ -52,6 +54,20 @@ app.keys = [config.get('session:secret')];
 app.use(session(app));
 app.use(router.routes());
 app.use(router.allowedMethods());
+router.use(koaJade.middleware({
+	viewPath: './client/views',
+	debug: devMode,
+	noCache: devMode,
+	// locals: global_locals_for_all_pages,
+	// basedir: 'path/for/jade/extends',
+	// helperPath: [
+	// 	'path/to/jade/helpers', {
+	// 		random: 'path/to/lib.js'
+	// 	}, {
+	// 		_: require('lodash')
+	// 	}
+	// ]
+}));
 
 // Append SocketStream middleware to the stack
 require('./server/routes/main')(ss, app, router);
