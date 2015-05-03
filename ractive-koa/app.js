@@ -6,6 +6,7 @@ var ss = require('socketstream');
 var ssJade = require('ss-jade');
 var ssStylus = require('ss-stylus');
 var koa = require('koa');
+var bodyParser = require('koa-body-parser');
 var connect = require('koa-connect');
 var session = require('koa-session');
 var router = require('koa-router')();
@@ -50,6 +51,7 @@ ss.client.templateEngine.use(require('ss-ractive'), '/', {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> ROUTING & KOA
 
+app.use(bodyParser());
 app.keys = [config.get('session:secret')];
 app.use(session(app));
 app.use(router.routes());

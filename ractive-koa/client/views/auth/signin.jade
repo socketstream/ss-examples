@@ -4,4 +4,17 @@ extends ../public
 //- 	title Article Title
 
 block content
-	h1 Sign Out Page
+
+	form#signupForm
+		h3 Sign Up
+		input.username(type='text' placeholder='name' name='username')
+		input.password(type='password' placeholder='Enter password...' name='password')
+		input.passwordConfirm(type='password' placeholder='Confirm password...' name='passwordConfirm')
+		input.email(type='text' placeholder='Enter email...' name='email')
+		input.submit(type='submit' value='Sign Up')
+	form#loginForm
+		h3 Log In
+		input.username(type='text' placeholder='Enter username...' name='username')
+		input.password(type='password' placeholder='Enter password...' name='password')
+		input.submit(type='submit' value='Log In')
+	#logout Log Out
