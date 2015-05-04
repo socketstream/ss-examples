@@ -18,12 +18,11 @@ var server;
 
 var config = require('./server/config');
 var devMode = config.get('env') === 'development';
-// var dbService = require('./server/services/db');
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> db services
 
 require('./server/db/mongodb').connect(ss);
-// dbService.connectRedis();
+require('./server/db/redis').connect(ss);
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> HTML FORMATTER
 
@@ -82,12 +81,6 @@ if (ss.env === 'production') {
 	ss.client.packAssets();
 }
 
-// server = http.createServer(app.callback()).listen(config.get('port'), function() {
-// 	console.log(server.address());
-// 	ss.start(server);
-// });
-
-
 server = app.listen(config.get('port'), function() {
 	var local = server.address();
 
@@ -127,21 +120,4 @@ server = app.listen(config.get('port'), function() {
 // 	// app.use(express.static(__dirname + '/public', { maxAge: oneYear }));
 // 	// app.use(express.errorHandler());
 // }
-
-
-
-
-// // ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ --- >>>
-// // ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ --- >>> START THE SERVER
-// // ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ --- >>>
-
-// // server = app.listen(port, function() {
-// // 	process.on('uncaughtException', function(err) { console.log(err); });
-// // 	var local = server.address();
-// // 	console.log('Express server listening @ http://%s:%d/ in %s mode', local.address, local.port, app.settings.env);
-// // 	// Start SocketStream
-// // 	ss.start(server);
-// // 	console.log('Ready...set...SubAtomic!'.green);
-// // });
-
 

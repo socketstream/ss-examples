@@ -12,8 +12,8 @@ module.exports = {
 	redis: {
 		host: 'localhost',
 		port: 6379,
-		password: '',
-		database: 'koa-ractive'
+		pass: '',
+		db: 8
 	}
 
 };
