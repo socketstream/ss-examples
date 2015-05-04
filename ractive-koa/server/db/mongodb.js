@@ -1,31 +1,29 @@
 'use strict';
 
-var mongoose = require('mongoose');
 var config = require('../config');
-
-// var Schema = mongoose.Schema,
-// var ObjectId = Schema.ObjectId;
-
-var connection;
+var mongoose = require('mongoose');
+var db;
 
 module.exports = {
 
 	connect: function(ss) {
-
-		if(connection) {
-			return connection;
+		if(db) {
+			return db;
 		} else {
-			connection = mongoose.createConnection(config.get('mongodb'));
-			connection.on('error', function() {
+			mongoose.connect(config.get('mongodb'));
+			if (config.get('env') === 'development') {
+				mongoose.set('debug', true);
+			}
+			db = mongoose.connection;
+			db.on('error', function() {
 				console.error(' * * * MONGODB CONNECTION ERROR * * * '.red.inverse);
 				return false;
 			});
-			return connection.once('open', function() {
+			db.once('open', function() {
 				console.log('MongoDB connected via Mongoose...'.green);
-				ss.api.add('db', connection);
+				ss.api.add('db', db);
 			});
 		}
-
 	},
 
 	// useModel: function(modelName, state) {

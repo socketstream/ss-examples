@@ -8,7 +8,7 @@ module.exports = {
 	session: {
 		secret: 'mcJu*(93_0LA4z6rWEgBw8{N3A"1-+xk2e-EiK[JmQl5*DgMmJ'
 	},
-	mongodb: 'mongodb://localhost/koa-ractive',
+	mongodb: 'mongodb://localhost/koa_ractive',
 	redis: {
 		host: 'localhost',
 		port: 6379,
