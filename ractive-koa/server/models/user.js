@@ -7,35 +7,40 @@ var User;
 
 var userSchema = mongoose.Schema({
 
-	username: String
-	// // primitive attributes
-	// username: {
-	// 	type: 'string',
-	// 	unique: true,
-	// 	required: true
-	// },
-	// password: {
-	// 	type: 'string',
-	// 	required: true,
-	// 	minLength: 8
-	// },
-	// email: {
-	// 	type: 'email',
-	// 	unique: true,
-	// 	required: true
-	// },
-	// first: {
-	// 	type: 'string',
-	// 	// defaultsTo: ''
-	// },
-	// last: {
-	// 	type: 'string',
-	// 	// defaultsTo: ''
-	// },
-	// // ???????
-	// // phone,
-	// // age,
-	// // birth,
+	username: {
+		type: String,
+		unique: true,
+		required: true
+	},
+	password: {
+		type: String,
+		required: true,
+		minLength: 8
+	},
+	email: {
+		type: String,
+		unique: true,
+		required: true,
+		// FIXME: careful about the requirements for a validate email address!
+		// http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
+		// https://www.google.com/search?q=RFC822&oq=RFC822&aqs=chrome..69i57j0l5.254j0j4&sourceid=chrome&es_sm=91&ie=UTF-8
+		validate: function(email) {
+			var regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+			return regex.test(email);
+		}
+	},
+	first: {
+		type: String,
+		// defaultsTo: ''
+	},
+	last: {
+		type: String,
+		// defaultsTo: ''
+	},
+	// ???????
+	// phone,
+	// age,
+	// birth,
 
 });
 

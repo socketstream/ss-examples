@@ -1,5 +1,7 @@
 'use strict';
 
+var User = require('../models/user').User;
+
 module.exports = function(ss, app, router) {
 
 	// - - - - - - - - - - - - - - - - - - - - - - - - >>>>> Pages
@@ -19,6 +21,12 @@ module.exports = function(ss, app, router) {
 	});
 
 	router.post('/api/signin', function*(next) {
+		var newUser = new User(this.request.body);
+		newUser.save(function(err, user) {
+			if (err) {
+				return console.error(err);
+			}
+		});
 		this.body = this.request.body;
 	});
 
