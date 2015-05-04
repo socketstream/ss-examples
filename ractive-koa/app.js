@@ -22,7 +22,7 @@ var devMode = config.get('env') === 'development';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> db services
 
-// dbService.connectMongoose();
+require('./server/db/mongodb').connect(ss);
 // dbService.connectRedis();
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> HTML FORMATTER
