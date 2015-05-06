@@ -1,42 +1,96 @@
 
 
-c = -> console.log.apply console, arguments
+c = ->
+    event = new CustomEvent "con---sole", {'detail': arguments}
+    window.dispatchEvent event
+    console.log.apply console, arguments
+
+cc = -> console.log.apply console, arguments
 
 window.t = require 'socketstream'
 
 t.server.on 'disconnect', ->
-  console.log 'lost connection :-('
+    console.log 'lost connection :-('
 
 t.server.on 'reconnect', ->
-  console.log 'recovered connection :-)'
+    console.log 'recovered connection :-)'
 
-t.event.on 'hey', ->
-  console.log "got a message"
+t.event.on 'hey', (a) ->
+    c "got a message", a
 
-{p, div, h1, input, svg, textarea, circle, form, h3 } = React.DOM
-
-
+{p, div, h1, input, svg, textarea, circle, form, h3, span } = React.DOM
 
 rr = -> React.createFactory(React.createClass.apply(React, arguments))
 
+monterrey = rr
+    render: ->
+        div
+            key: Math.random()
+            className: 'monterrey',
+            "ha"
+            colorado
+                initial_position: {x: 204, y: 240}
+            structured_console()
 
+structured_console = rr
+
+    getInitialState: ->
+        logs: []
+
+    componentDidMount: ->
+        window.addEventListener 'con---sole', (a) =>
+            cc 'we heard', a.detail
+            #@state.logs.push a.detail[1]
+            #@setState {logs: @state.logs.push(a.detail[1])}
+            @setState
+                logs: [@state.logs..., a.detail[1]]
+
+    render: ->
+        div
+            key: Math.random(),
+            for item in @state.logs
+                span
+                    key: Math.random(),
+                    item
+
+remote_control = rr
+    
+    render: ->
+        div
+            key: Math.random(),
+            "something here soon to control "
+            input
+                placeholder: 'radio'
 
 colorado = rr
+
+    getInitialState: ->
+        position: @props.initial_position
+
     __handle_change: (e) ->
         c e.currentTarget.value
         t.rpc 'gate.ping', (res)->
-            c "res on", res
+
 
 
     render: ->
-        div 0,
+        div
+            key: Math.random()
+            style:
+                'position': 'absolute'
+                'top': @state.position.y + 'px'
+                'left': @state.position.x + 'px'
+            ,
             input
                 placeholder: 'something here'
                 onChange: @__handle_change
 
 
 imp = ->
-    colorado()
+    monterrey()
+    #colorado()
+
+
 
 
 

@@ -1,11 +1,11 @@
 {
     "dependencies": {
+        "ss-stylus": "latest",
         "webpack": "latest",
         "node-uuid": "latest",
         "redis": "latest",
         "react": "latest",
         "ss-jade": "latest",
-        "ss-coffee": "latest",
-        "socketstream": "latest"
+        "ss-coffee": "latest"
     }
 }
