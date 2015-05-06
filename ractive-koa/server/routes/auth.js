@@ -1,5 +1,7 @@
 'use strict';
 
+// var bcrypt = require('bcrypt');
+
 var User = require('../models/user').User;
 
 module.exports = function(ss, app, router) {
@@ -36,11 +38,29 @@ module.exports = function(ss, app, router) {
 			user = yield newUser.save();
 			console.log(user);
 			console.log('New user created'.green.inverse);
-			this.body = user;
+			// req.session.authenticated = true;
+			// req.session.user = user.getUser();
+			this.body = {
+				id: user._id,
+				username: user.username,
+				// password: true,
+				email: user.email
+			};
 		}
 	});
 
 	router.get('/api/signout', function*() {
 	});
+
+
+		// 	url: '/api/join',
+		// 	type: 'post',
+		// 	data: $(this).serialize()
+		// }).done(function(data) {
+
+		// 	url: '/api/signout',
+		// 	type: 'GET'
+		// }).done(function(data) {
+		// 	window.location = '/';
 
 };

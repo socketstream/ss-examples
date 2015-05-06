@@ -1,7 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose');
-// var bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt');
 
 var User;
 
@@ -44,6 +44,26 @@ var userSchema = mongoose.Schema({
 
 });
 
+userSchema.pre('save', function(next) {
+	// only hash the password if it has been modified (or is new)
+	if (!this.isModified('password')) {
+		return next();
+	}
+	// TODO: check to make sure password and passwordCreate are identical,
+	bcrypt.genSalt(10, function(err, salt) {
+		if (err) {
+			return next(err);
+		}
+		bcrypt.hash(this.password, salt, function(err, hash) {
+			if (err) {
+				return next(err);
+			}
+			this.password = hash;
+			next();
+		}.bind(this));
+	}.bind(this));
+});
+
 userSchema.methods = {
 
 	speak: function() {
@@ -70,47 +90,7 @@ userSchema.methods = {
 
 User = mongoose.model('User', userSchema);
 
-
-
-// userSchema.methods.enroll = function(options, cb) {
-// 	User.findOne(options.id).exec(function(err, theUser) {
-// 		if (err) {
-// 			return cb(err);
-// 		}
-// 		if (!theUser) {
-// 			return cb(new Error('User not found.'));
-// 		}
-// 		theUser.enrolledIn.add(options.courses);
-// 		theUser.save(cb);
-// 	});
-// };
-
-
-
 module.exports = {
-
 	userSchema: userSchema,
-
-	User: User,
-
-
-	// // lifecycle methods
-	// beforeCreate: function(values, next) {
-	// 	// TODO: check to make sure password and passwordCreate are identical,
-	// 	// TODO: I may have to write a service for this
-	// 	// SEE: http://stackoverflow.com/questions/25183819/sails-js-calling-one-controller-action-from-another-and-passing-additional-param
-	// 	bcrypt.genSalt(10, function(err, salt) {
-	// 		if (err) {
-	// 			return next(err);
-	// 		}
-	// 		bcrypt.hash(values.password, salt, function(err, hash) {
-	// 			if (err) {
-	// 				return next(err);
-	// 			}
-	// 			values.password = hash;
-	// 			next();
-	// 		});
-	// 	});
-	// }
-
+	User: User
 };
