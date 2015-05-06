@@ -1,0 +1,11 @@
+{
+	"extends": "../../.jshintrc",
+	"esnext": false,
+	"browser": true,
+	"node": false,
+	// "jquery": true,
+	"browserify": true,
+	"globals": {
+		"Ractive": true
+	}
+}
