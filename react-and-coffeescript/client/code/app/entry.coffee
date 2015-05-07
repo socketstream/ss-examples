@@ -25,7 +25,7 @@ rr = -> React.createFactory(React.createClass.apply(React, arguments))
 monterrey = rr
     render: ->
         div
-            key: Math.random()
+            key: 'monterrey'
             className: 'monterrey',
             "ha"
             colorado
@@ -40,24 +40,26 @@ structured_console = rr
     componentDidMount: ->
         window.addEventListener 'con---sole', (a) =>
             cc 'we heard', a.detail
-            #@state.logs.push a.detail[1]
-            #@setState {logs: @state.logs.push(a.detail[1])}
+            # line_text = a.detail.reduce (acc, i) ->
+            #     acc + i.toString()
+            # , ''
+            line_text = [a.detail]
             @setState
-                logs: [@state.logs..., a.detail[1]]
+                logs: [@state.logs..., line_text]
 
     render: ->
         div
-            key: Math.random(),
-            for item in @state.logs
+            key: 'structured_console',
+            for item, idx in @state.logs
                 span
-                    key: Math.random(),
+                    key: 'sc_line' + idx,
                     item
 
 remote_control = rr
     
     render: ->
         div
-            key: Math.random(),
+            key: 'remote_control',
             "something here soon to control "
             input
                 placeholder: 'radio'
@@ -70,12 +72,13 @@ colorado = rr
     __handle_change: (e) ->
         c e.currentTarget.value
         t.rpc 'gate.ping', (res)->
+            c res
 
 
 
     render: ->
         div
-            key: Math.random()
+            key: 'colorado'
             style:
                 'position': 'absolute'
                 'top': @state.position.y + 'px'
