@@ -78,10 +78,8 @@ colorado = rr
             c res
 
     dragStart: (e) ->
-        c "start clientX", e.clientX
-        #@dragged = e.currentTarget
         e.dataTransfer.effectAllowed = 'move'
-        e.dataTransfer.setData "application/x-moz-file", e.currentTarget
+        e.dataTransfer.setData "application/x-moz-node", e.currentTarget
 
     dragEnd: (e) ->
         @setState
