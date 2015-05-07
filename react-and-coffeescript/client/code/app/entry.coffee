@@ -1,4 +1,11 @@
+window.onmousemove = (e) ->
+    event = new CustomEvent 'mouse_pos', {x: e.clientX, y: e.clientY}
+    window.dispatchEvent event
 
+window.onmouseup = ->
+    cc 'mouseup'
+    event = new Event 'mouseuppp'
+    window.dispatchEvent event
 
 c = ->
     event = new CustomEvent "con---sole", {'detail': arguments}
@@ -23,6 +30,7 @@ t.event.on 'hey', (a) ->
 rr = -> React.createFactory(React.createClass.apply(React, arguments))
 
 monterrey = rr
+
     render: ->
         div
             key: 'monterrey'
@@ -69,19 +77,36 @@ colorado = rr
         t.rpc 'gate.ping', (res)->
             c res
 
+    dragStart: (e) ->
+        c "start clientX", e.clientX
+        #@dragged = e.currentTarget
+        e.dataTransfer.effectAllowed = 'move'
+        e.dataTransfer.setData "application/x-moz-file", e.currentTarget
+
+    dragEnd: (e) ->
+        @setState
+            position:
+                x: e.screenX
+                y: e.screenY
 
 
     render: ->
         div
+            draggable: true
+            className: 'colorado'
             key: 'colorado'
             style:
-                'position': 'absolute'
-                'top': @state.position.y + 'px'
-                'left': @state.position.x + 'px'
+                zIndex: 99999
+                position: 'absolute'
+                top: @state.position.y + 'px'
+                left: @state.position.x + 'px'
+            onDragStart: @dragStart
+            onDragEnd: @dragEnd
             ,
             input
                 placeholder: 'something here'
                 onChange: @__handle_change
+
 
 
 imp = ->
