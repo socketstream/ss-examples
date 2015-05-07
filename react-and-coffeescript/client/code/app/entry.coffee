@@ -39,13 +39,8 @@ structured_console = rr
 
     componentDidMount: ->
         window.addEventListener 'con---sole', (a) =>
-            cc 'we heard', a.detail
-            # line_text = a.detail.reduce (acc, i) ->
-            #     acc + i.toString()
-            # , ''
-            line_text = [a.detail]
             @setState
-                logs: [@state.logs..., line_text]
+                logs: [@state.logs..., a.detail]
 
     render: ->
         div
