@@ -24,13 +24,31 @@ module.exports = function(ss, app, router) {
 
 	router.post('/api/signin', function*() {
 		var body = this.request.body;
-		var user = yield User.findOne({ username: body.username });
+		var errors = [];
+		var user, newUser;
+
+		// TODO: separate out this validation into different ajax calls and functionality
+		if (body.password !== body.passwordConfirm) {
+			errors.push('Password and confirm password do not match.');
+		}
+		user = yield User.findOne({ username: body.username });
 		if (user) {
-			console.log('Username already taken'.red.inverse); // TODO: username or email
-			this.body = 'Username already taken';
+			errors.push('Username already taken');
+		}
+		// couldn't this be done w/ one MongoDB call?
+		user = yield User.findOne({ email: body.email });
+		if (user) {
+			errors.push('Email already taken');
+		}
+		if (errors.length) {
+			console.log(errors.join(' ').red.inverse);
+			this.body = {
+				error: true,
+				messages: errors
+			};
 		} else {
-			console.log('no user found!'.green.inverse, user);
-			var newUser = new User({
+			console.log(' no user found! '.green.inverse, user);
+			newUser = new User({
 				username: body.username,
 				password: body.password,
 				email: body.email
