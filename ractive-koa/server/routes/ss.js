@@ -18,8 +18,8 @@ module.exports = function(ss, app, router) {
 	// 	res.serveClient('main');
 	// });
 
-	router.get('/', function*(next) {
-		this.res.serveClient('main')
+	router.get('/', function*() {
+		this.res.serveClient('main');
 	});
 
 };
