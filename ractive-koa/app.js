@@ -6,21 +6,23 @@ var ss = require('socketstream');
 var ssJade = require('ss-jade');
 var ssStylus = require('ss-stylus');
 var koa = require('koa');
+var bodyParser = require('koa-body-parser');
 var connect = require('koa-connect');
 var session = require('koa-session');
 var router = require('koa-router')();
+var koaJade = require('koa-jade');
 var app = koa();
 var server;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> config
 
-var config = require('./server/services/config');
-// var dbService = require('./server/services/db');
+var config = require('./server/config');
+var devMode = config.get('env') === 'development';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> db services
 
-// dbService.connectMongoose();
-// dbService.connectRedis();
+require('./server/db/mongodb').connect(ss);
+require('./server/db/redis').connect(ss);
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> HTML FORMATTER
 
@@ -28,7 +30,7 @@ ss.client.formatters.add(ssJade, {
 	locals: {
 		title: 'Koa Ractive SocketStream App :: Home'
 	},
-	pretty: ss.env === 'production' ? false : true
+	pretty: devMode
 });
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> STYLE FORMATTER
@@ -43,18 +45,33 @@ ss.client.formatters.add(ssStylus);
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> TEMPLATE ENGINE
 
 ss.client.templateEngine.use(require('ss-ractive'), '/', {
-	pretty: ss.env === 'production' ? false : true
+	pretty: devMode
 });
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> ROUTING & KOA
 
+app.use(bodyParser());
 app.keys = [config.get('session:secret')];
 app.use(session(app));
 app.use(router.routes());
 app.use(router.allowedMethods());
+router.use(koaJade.middleware({
+	viewPath: './client/views',
+	debug: devMode,
+	noCache: devMode,
+	// locals: global_locals_for_all_pages,
+	// basedir: 'path/for/jade/extends',
+	// helperPath: [
+	// 	'path/to/jade/helpers', {
+	// 		random: 'path/to/lib.js'
+	// 	}, {
+	// 		_: require('lodash')
+	// 	}
+	// ]
+}));
 
 // Append SocketStream middleware to the stack
-require('./server/services/routes')(ss, app, router);
+require('./server/routes')(ss, app, router);
 app.use(connect(ss.http.middleware));
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> PACK ASSETS
@@ -63,12 +80,6 @@ app.use(connect(ss.http.middleware));
 if (ss.env === 'production') {
 	ss.client.packAssets();
 }
-
-// server = http.createServer(app.callback()).listen(config.get('port'), function() {
-// 	console.log(server.address());
-// 	ss.start(server);
-// });
-
 
 server = app.listen(config.get('port'), function() {
 	var local = server.address();
@@ -109,21 +120,4 @@ server = app.listen(config.get('port'), function() {
 // 	// app.use(express.static(__dirname + '/public', { maxAge: oneYear }));
 // 	// app.use(express.errorHandler());
 // }
-
-
-
-
-// // ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ --- >>>
-// // ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ --- >>> START THE SERVER
-// // ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ --- >>>
-
-// // server = app.listen(port, function() {
-// // 	process.on('uncaughtException', function(err) { console.log(err); });
-// // 	var local = server.address();
-// // 	console.log('Express server listening @ http://%s:%d/ in %s mode', local.address, local.port, app.settings.env);
-// // 	// Start SocketStream
-// // 	ss.start(server);
-// // 	console.log('Ready...set...SubAtomic!'.green);
-// // });
-
 
