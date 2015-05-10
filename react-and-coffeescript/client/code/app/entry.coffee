@@ -38,12 +38,21 @@ monterrey = rr
             "ha"
             colorado
                 initial_position: {x: 204, y: 240}
-            structured_console()
+            structured_console
+                initial_position: {x: 10, y: 110}
+            structured_console
+                initial_position: {x: 600, y: 110}
 
 structured_console = rr
 
     getInitialState: ->
+        position:
+            x: @props.initial_position.x
+            y: @props.initial_position.y
         logs: []
+
+    # componentDidUnmount: ->
+        # remove event listener from window
 
     componentDidMount: ->
         window.addEventListener 'con---sole', (a) =>
@@ -52,7 +61,12 @@ structured_console = rr
 
     render: ->
         div
-            key: 'structured_console',
+            key: 'structured_console'
+            className: 'structured_console'
+            style:
+                top: @state.position.y + 'px'
+                left: @state.position.x + 'px'
+            ,
             for item, idx in @state.logs
                 span
                     key: 'sc_line' + idx,
@@ -94,8 +108,6 @@ colorado = rr
             className: 'colorado'
             key: 'colorado'
             style:
-                zIndex: 99999
-                position: 'absolute'
                 top: @state.position.y + 'px'
                 left: @state.position.x + 'px'
             onDragStart: @dragStart
@@ -114,15 +126,12 @@ imp = ->
 
 
 
-
-
-
-
-
-
-
-
 amp = document.getElementById 'amp'
 render = -> React.render imp(), amp
 render()
+
+setInterval ->
+    t.rpc 'gate.check_who_am_i', (res) ->
+        c 'new res', res
+, 3000
 
