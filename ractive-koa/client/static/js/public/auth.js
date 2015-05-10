@@ -1,10 +1,9 @@
 $(function() {
 
-	$('#signupForm').on('submit', function() {
+	$('#joinForm').on('submit', function() {
 		// TODO: throw in some happy.js validation
-		console.log($(this).serialize());
 		$.ajax({
-			url: '/api/signup',
+			url: '/api/join',
 			type: 'post',
 			data: $(this).serialize()
 		}).done(function(data) {
@@ -18,10 +17,10 @@ $(function() {
 		return false;
 	});
 
-	$('#loginForm').on('submit', function() {
+	$('#signinForm').on('submit', function() {
 		// TODO: throw in some happy.js validation
 		$.ajax({
-			url: '/api/login',
+			url: '/api/signin',
 			type: 'post',
 			data: $(this).serialize()
 		}).done(function(data) {
@@ -33,9 +32,9 @@ $(function() {
 		return false;
 	});
 
-	$('#logout').on('click', function() {
+	$('#signout').on('click', function() {
 		$.ajax({
-			url: '/api/logout',
+			url: '/api/signout',
 			type: 'GET'
 		}).done(function(data) {
 			window.location = '/';
