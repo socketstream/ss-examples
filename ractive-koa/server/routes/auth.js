@@ -19,10 +19,6 @@ module.exports = function(ss, app, router) {
 	// - - - - - - - - - - - - - - - - - - - - - - - - >>>>> API
 
 	router.post('/api/join', function*() {
-		this.body = this.request.body;
-	});
-
-	router.post('/api/signin', function*() {
 		var body = this.request.body;
 		var errors = [];
 		var user, newUser;
@@ -65,6 +61,10 @@ module.exports = function(ss, app, router) {
 				email: user.email
 			};
 		}
+	});
+
+	router.post('/api/signin', function*() {
+		this.body = this.request.body;
 	});
 
 	router.get('/api/signout', function*() {
