@@ -1,11 +1,14 @@
-window.onmousemove = (e) ->
-    event = new CustomEvent 'mouse_pos', {x: e.clientX, y: e.clientY}
-    window.dispatchEvent event
 
-window.onmouseup = ->
-    cc 'mouseup'
-    event = new Event 'mouseuppp'
-    window.dispatchEvent event
+styles = require('./styles.coffee')
+
+# window.onmousemove = (e) ->
+#     event = new CustomEvent 'mouse_pos', {x: e.clientX, y: e.clientY}
+#     window.dispatchEvent event
+
+# window.onmouseup = ->
+#     cc 'mouseup'
+#     event = new Event 'mouseuppp'
+#     window.dispatchEvent event
 
 c = ->
     event = new CustomEvent "con---sole", {'detail': arguments}
@@ -91,31 +94,67 @@ colorado = rr
         t.rpc 'gate.ping', (res)->
             c res
 
-    dragStart: (e) ->
-        e.dataTransfer.effectAllowed = 'move'
-        e.dataTransfer.setData "application/x-moz-node", e.currentTarget
+    addDragEvents: ->
+        cc 'adding'
+        document.addEventListener 'mousemove', @onMouseMove
+        document.addEventListener 'mouseup', @onMouseUp
 
-    dragEnd: (e) ->
+    removeDragEvents: ->
+        cc 'removing'
+        document.removeEventListener 'mousemove', @onMouseMove
+        document.removeEventListener 'mouseup', @onMouseUp
+
+    onMouseUp: (e) ->
+        @removeDragEvents()
+
+    onMouseDown: (e) ->
+        e.stopPropagation()
+        @addDragEvents()
+        cc 'rectangle', e.currentTarget.getBoundingClientRect()
+        pageOffset = e.currentTarget.getBoundingClientRect()
+        @setState
+            originX: e.pageX
+            originY: e.pageY
+            elementX: pageOffset.left
+            elementY: pageOffset.top
+
+    onMouseMove: (e) ->
+        deltaX = e.pageX - @state.originX
+        deltaY = e.pageY - @state.originY
+
         @setState
             position:
-                x: e.screenX
-                y: e.screenY
+                x: @state.elementX + deltaX + document.body.scrollLeft
+                y: @state.elementY + deltaY + document.body.scrollTop
 
+    style: ->
+        style =
+            position: 'absolute'
+            top: @state.position.y
+            left: @state.position.x
+            zIndex: 9999
+            width: 300
+            height: 200
+            border: '1px solid black'
+            backgroundColor: 'rgba(255, 255, 255, 0.5)'
+            borderRadius: 5
 
     render: ->
         div
-            draggable: true
-            className: 'colorado'
+            draggable: false
             key: 'colorado'
-            style:
-                top: @state.position.y + 'px'
-                left: @state.position.x + 'px'
-            onDragStart: @dragStart
-            onDragEnd: @dragEnd
+            style: @style()
+
+            #onDragStart: @dragStart
+            #onDragEnd: @dragEnd
+            onMouseDown: @onMouseDown
+
             ,
             input
                 placeholder: 'something here'
                 onChange: @__handle_change
+                style:
+                    margin: '10%'
 
 
 

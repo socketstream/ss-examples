@@ -12,3 +12,7 @@ A further-along goal kind of in incubation now is to develop an entertaining exa
 ###### Please note:
 _(This demo uses a (**derivative**) of a style React+CoffeeScript I learned from Alberto Torres Ruiz. This is not the only way of using React + CoffeeScript with SocketStream -- I or others may document other ways in the future. This is a nice way of doing it though.)_
 
+
+###### note to self:
+
+[this ](http://blog.vjeux.com/2014/javascript/react-css-in-js-nationjs.html) makes an excellent case for just putting all styles inline to the js (cs in our case).  may well do this going forward.
