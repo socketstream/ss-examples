@@ -69,6 +69,7 @@ router.use(koaJade.middleware({
 	// 	}
 	// ]
 }));
+app.use(require('koa-static')(__dirname + '/client/static'));
 
 // Append SocketStream middleware to the stack
 require('./server/routes')(ss, app, router);
