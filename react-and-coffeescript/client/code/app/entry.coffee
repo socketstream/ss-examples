@@ -38,8 +38,7 @@ monterrey = rr
         div
             key: 'monterrey'
             className: 'monterrey',
-            "ha"
-            colorado
+            draggable(colorado2)
                 initial_position: {x: 204, y: 240}
             structured_console
                 initial_position: {x: 10, y: 110}
@@ -71,7 +70,7 @@ structured_console = rr
                 left: @state.position.x + 'px'
             ,
             for item, idx in @state.logs
-                span
+                p
                     key: 'sc_line' + idx,
                     item
 
@@ -83,6 +82,85 @@ remote_control = rr
             "something here soon to control "
             input
                 placeholder: 'radio'
+
+draggable = (a) ->  # for composition instead of mixin
+    rr
+        getInitialState: ->
+            position: @props.initial_position
+
+        addDragEvents: ->
+            document.addEventListener 'mousemove', @onMouseMove
+            document.addEventListener 'mouseup', @onMouseUp
+
+        removeDragEvents: ->
+            document.removeEventListener 'mousemove', @onMouseMove
+            document.removeEventListener 'mouseup', @onMouseUp
+
+        onMouseUp: (e) ->
+            @removeDragEvents()
+
+        onMouseDown: (e) ->
+            e.stopPropagation()
+            @addDragEvents()
+            pageOffset = e.currentTarget.getBoundingClientRect()
+            @setState
+                originX: e.pageX
+                originY: e.pageY
+                elementX: pageOffset.left
+                elementY: pageOffset.top
+
+        onMouseMove: (e) ->
+            deltaX = e.pageX - @state.originX
+            deltaY = e.pageY - @state.originY
+
+            @setState
+                position:
+                    x: @state.elementX + deltaX + document.body.scrollLeft
+                    y: @state.elementY + deltaY + document.body.scrollTop
+
+        style: =>
+            position: 'absolute'
+            left: @state.position.x
+            top: @state.position.y
+            zIndex: 9999
+
+        render: ->
+            div
+                style:
+                    position: 'absolute'
+                    left: @state.position.x
+                    top: @state.position.y
+                    zIndex: 9999
+                onMouseDown: @onMouseDown
+                ,
+                a()
+
+
+colorado2 = rr
+
+
+    __handle_change: (e) ->
+        c e.currentTarget.value
+        t.rpc 'gate.ping', (res)->
+            c res
+
+    style:
+        width: 300
+        height: 200
+        border: '1px solid black'
+        backgroundColor: 'rgba(255, 255, 255, 0.5)'
+        borderRadius: 5
+
+    render: ->
+        div
+            key: 'colorado'
+            style: @style
+            ,
+            input
+                placeholder: 'something here'
+                onChange: @__handle_change
+                style:
+                    margin: '10%'
 
 colorado = rr
 
@@ -141,12 +219,8 @@ colorado = rr
 
     render: ->
         div
-            draggable: false
             key: 'colorado'
             style: @style()
-
-            #onDragStart: @dragStart
-            #onDragEnd: @dragEnd
             onMouseDown: @onMouseDown
 
             ,
