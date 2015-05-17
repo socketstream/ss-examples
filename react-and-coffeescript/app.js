@@ -27,6 +27,8 @@
   });
 
   t.http.route('/', function(req, res) {
+    c(Object.keys(req));
+    c(req.signedCookies['connect.sid']);
     return res.serveClient('basic');
   });
 

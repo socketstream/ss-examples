@@ -1,20 +1,14 @@
 
+# showing how inline styles can be factored out 
 styles = require('./styles.coffee')
 
-# window.onmousemove = (e) ->
-#     event = new CustomEvent 'mouse_pos', {x: e.clientX, y: e.clientY}
-#     window.dispatchEvent event
-
-# window.onmouseup = ->
-#     cc 'mouseup'
-#     event = new Event 'mouseuppp'
-#     window.dispatchEvent event
-
+# aliasing console.log, in this case prototyping a move to structured interactive logging
 c = ->
     event = new CustomEvent "con---sole", {'detail': arguments}
     window.dispatchEvent event
     console.log.apply console, arguments
 
+# aliasing console.log
 cc = -> console.log.apply console, arguments
 
 window.t = require 'socketstream'
@@ -30,8 +24,11 @@ t.event.on 'hey', (a) ->
 
 {p, div, h1, input, svg, textarea, circle, form, h3, span } = React.DOM
 
+# aliasing the React component creation function
 rr = -> React.createFactory(React.createClass.apply(React, arguments))
 
+
+# a macro wrapper component
 monterrey = rr
 
     render: ->
@@ -45,6 +42,8 @@ monterrey = rr
             structured_console
                 initial_position: {x: 600, y: 110}
 
+# some prototype sketch of nothing in particular,
+# this accepts messages from the virtual console and prints them 
 structured_console = rr
 
     getInitialState: ->
@@ -59,7 +58,8 @@ structured_console = rr
     componentDidMount: ->
         window.addEventListener 'con---sole', (a) =>
             @setState
-                logs: [@state.logs..., a.detail]
+                #logs: [@state.logs..., a.detail]
+                logs: [a.detail, @state.logs...]
 
     render: ->
         div
@@ -74,6 +74,7 @@ structured_console = rr
                     key: 'sc_line' + idx,
                     item
 
+# nothing here yet
 remote_control = rr
     
     render: ->
@@ -83,6 +84,8 @@ remote_control = rr
             input
                 placeholder: 'radio'
 
+# this is a wrapper component for making other components draggable, by composition within this one
+# this may not be the most elegant pattern for composition .
 draggable = (a) ->  # for composition instead of mixin
     rr
         getInitialState: ->
@@ -135,9 +138,8 @@ draggable = (a) ->  # for composition instead of mixin
                 ,
                 a()
 
-
+# todo : delete ?
 colorado2 = rr
-
 
     __handle_change: (e) ->
         c e.currentTarget.value
@@ -162,81 +164,9 @@ colorado2 = rr
                 style:
                     margin: '10%'
 
-colorado = rr
-
-    getInitialState: ->
-        position: @props.initial_position
-
-    __handle_change: (e) ->
-        c e.currentTarget.value
-        t.rpc 'gate.ping', (res)->
-            c res
-
-    addDragEvents: ->
-        cc 'adding'
-        document.addEventListener 'mousemove', @onMouseMove
-        document.addEventListener 'mouseup', @onMouseUp
-
-    removeDragEvents: ->
-        cc 'removing'
-        document.removeEventListener 'mousemove', @onMouseMove
-        document.removeEventListener 'mouseup', @onMouseUp
-
-    onMouseUp: (e) ->
-        @removeDragEvents()
-
-    onMouseDown: (e) ->
-        e.stopPropagation()
-        @addDragEvents()
-        cc 'rectangle', e.currentTarget.getBoundingClientRect()
-        pageOffset = e.currentTarget.getBoundingClientRect()
-        @setState
-            originX: e.pageX
-            originY: e.pageY
-            elementX: pageOffset.left
-            elementY: pageOffset.top
-
-    onMouseMove: (e) ->
-        deltaX = e.pageX - @state.originX
-        deltaY = e.pageY - @state.originY
-
-        @setState
-            position:
-                x: @state.elementX + deltaX + document.body.scrollLeft
-                y: @state.elementY + deltaY + document.body.scrollTop
-
-    style: ->
-        style =
-            position: 'absolute'
-            top: @state.position.y
-            left: @state.position.x
-            zIndex: 9999
-            width: 300
-            height: 200
-            border: '1px solid black'
-            backgroundColor: 'rgba(255, 255, 255, 0.5)'
-            borderRadius: 5
-
-    render: ->
-        div
-            key: 'colorado'
-            style: @style()
-            onMouseDown: @onMouseDown
-
-            ,
-            input
-                placeholder: 'something here'
-                onChange: @__handle_change
-                style:
-                    margin: '10%'
-
-
-
+# the entire app gets wrapped in this before rendering to DOM
 imp = ->
     monterrey()
-    #colorado()
-
-
 
 
 amp = document.getElementById 'amp'

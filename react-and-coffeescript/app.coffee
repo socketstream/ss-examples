@@ -15,9 +15,17 @@ t.client.define 'another',
     css: ['another']
 
 t.http.route '/another', (req, res) ->
+
     res.serveClient 'another'
 
 t.http.route '/', (req, res) ->
+    c Object.keys(req)
+    #c req.socket.request.headers.cookie
+    #c Object.keys(req.socket)
+    #c req.headers # this one contains our ws cookie but as unparsed string
+
+    #c Object.keys(req.signedCookies)
+    c req.signedCookies['connect.sid']
     res.serveClient 'basic'
 
 t.client.formatters.add(require('ss-coffee'))
