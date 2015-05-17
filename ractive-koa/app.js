@@ -11,7 +11,7 @@ var router = require('koa-router')();
 var koaJade = require('koa-jade');
 var connect = require('connect')();
 var app = koa();
-var ssMiddleware, server;
+var redisStore, ssMiddleware, server;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> config
 
@@ -21,7 +21,7 @@ var devMode = config.get('env') === 'development';
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> db services
 
 require('./server/db/mongodb').connect(ss);
-require('./server/db/redis').connect(ss);
+connect.use(require('./server/db/redis').connect(ss));
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> HTML FORMATTER
 
@@ -52,6 +52,12 @@ ss.client.templateEngine.use(require('ss-ractive'), '/', {
 app.use(bodyParser());
 // app.keys = [config.get('session:secret')];
 // app.use(session(app));
+app.use(require('koa-static')(__dirname + '/client/static'));
+ssMiddleware = connect.use(ss.http.middleware);
+app.use(function*(next) {
+	yield ssMiddleware.bind(null, this.req, this.res);
+	yield next;
+});
 app.use(router.routes());
 app.use(router.allowedMethods());
 router.use(koaJade.middleware({
@@ -68,15 +74,9 @@ router.use(koaJade.middleware({
 	// 	}
 	// ]
 }));
-app.use(require('koa-static')(__dirname + '/client/static'));
 
 require('./server/routes')(ss, app, router);
 // append ss middleware to the stack
-ssMiddleware = connect.use(ss.http.middleware);
-app.use(function*(next) {
-	yield ssMiddleware.bind(null, this.req, this.res);
-	yield next;
-});
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> PACK ASSETS
 

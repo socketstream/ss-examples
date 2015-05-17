@@ -19,6 +19,8 @@ module.exports = {
 
 		console.log('REDIS connected...'.green);
 
+		return redisStore;
+
 	}
 
 };
