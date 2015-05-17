@@ -7,12 +7,11 @@ var ssJade = require('ss-jade');
 var ssStylus = require('ss-stylus');
 var koa = require('koa');
 var bodyParser = require('koa-body-parser');
-var connect = require('koa-connect');
-var session = require('koa-session');
 var router = require('koa-router')();
 var koaJade = require('koa-jade');
+var connect = require('connect')();
 var app = koa();
-var server;
+var ssMiddleware, server;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> config
 
@@ -51,8 +50,8 @@ ss.client.templateEngine.use(require('ss-ractive'), '/', {
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> ROUTING & KOA
 
 app.use(bodyParser());
-app.keys = [config.get('session:secret')];
-app.use(session(app));
+// app.keys = [config.get('session:secret')];
+// app.use(session(app));
 app.use(router.routes());
 app.use(router.allowedMethods());
 router.use(koaJade.middleware({
@@ -71,9 +70,13 @@ router.use(koaJade.middleware({
 }));
 app.use(require('koa-static')(__dirname + '/client/static'));
 
-// Append SocketStream middleware to the stack
 require('./server/routes')(ss, app, router);
-app.use(connect(ss.http.middleware));
+// append ss middleware to the stack
+ssMiddleware = connect.use(ss.http.middleware);
+app.use(function*(next) {
+	yield ssMiddleware.bind(null, this.req, this.res);
+	yield next;
+});
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> PACK ASSETS
 
