@@ -1,0 +1,8 @@
+{
+  "dependencies":{
+    "node-uuid": "latest",
+    "react": "latest",
+    "babel-loader": "latest",
+    "webpack": "latest"
+  }
+}
