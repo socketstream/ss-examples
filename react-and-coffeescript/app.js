@@ -6,6 +6,8 @@
 
   http = require('http');
 
+  t.session.options = "SocketStream";
+
   c = function() {
     return console.log.apply(console, arguments);
   };
@@ -22,11 +24,29 @@
     css: ['another']
   });
 
+  t.http.route('/testing', function(req, res) {
+    var i, item, len, ref;
+    c("yes");
+    c("(http) req.session", Object.keys(req.session));
+    ref = Object.keys(res);
+    for (i = 0, len = ref.length; i < len; i++) {
+      item = ref[i];
+      if (typeof res[item] === 'function') {
+        c(item);
+      }
+    }
+    res.write(Date.now() + "   hi");
+    return res.end();
+  });
+
   t.http.route('/another', function(req, res) {
     return res.serveClient('another');
   });
 
   t.http.route('/', function(req, res) {
+    c("(http) req.session", Object.keys(req.session));
+    c('signedCookies', Object.keys(req.signedCookies));
+    c("signedCookies['connect.sid']", req.signedCookies['connect.sid']);
     return res.serveClient('basic');
   });
 
@@ -36,9 +56,13 @@
 
   t.client.formatters.add(require('ss-stylus'));
 
-  t.session.store.use('redis');
+  t.session.store.use('redis', {
+    secret: "SocketStream"
+  });
 
-  t.publish.transport.use('redis');
+  t.publish.transport.use('redis', {
+    secret: "SocketStream"
+  });
 
   server = http.createServer(t.http.middleware);
 
