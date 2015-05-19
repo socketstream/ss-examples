@@ -3,11 +3,12 @@ c = -> console.log.apply(console, arguments)
 fs = require 'fs'
 exports.test =->
   (req,res,next)->
-    c Object.keys(req)
-    c req.sessionId
-    if req.session['something']?
-      req.session['something'] += 1
+    #c "(ws) req: ", Object.keys(req)
+    #c "(ws) req.session", Object.keys(req.session)
+    #c "(ws) req.sessionId: ", req.sessionId
+    if req.session['something_else']?
+      req.session['something_else'] += 1
     else
-      req.session['something'] = 0
+      req.session['something_else'] = 0
     req.session.save()
     return next()

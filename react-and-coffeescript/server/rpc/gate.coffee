@@ -10,6 +10,7 @@ exports.actions = (req, res, t) ->
         if req.session.userId
             res 'OK'
         else
+            req.session.setUserId "waco wacko"
             res 'WHO?'
 
     ping: ->
