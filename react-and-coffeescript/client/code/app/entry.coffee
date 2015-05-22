@@ -30,11 +30,9 @@ rr = -> React.createFactory(React.createClass.apply(React, arguments))
 
 # a macro wrapper component
 monterrey = rr
-
     render: ->
         div
-            key: 'monterrey'
-            className: 'monterrey',
+            key: 'monterrey',
             draggable(colorado2)
                 initial_position: {x: 204, y: 240}
             structured_console
@@ -62,12 +60,23 @@ structured_console = rr
                 logs: [a.detail, @state.logs...]
 
     render: ->
+        styles =
+            color: 'white'
+            position: 'absolute'
+            width: '40%'
+            height: '40%'
+            background: '#C559FF'
+            overflow: 'auto'
+            borderRadius: '3%'
+            fontSize: 9
+            top: @state.position.y + 'px'
+            left: @state.position.x + 'px'
         div
             key: 'structured_console'
             className: 'structured_console'
-            style:
-                top: @state.position.y + 'px'
-                left: @state.position.x + 'px'
+            style: styles
+                #top: @state.position.y + 'px'
+                #left: @state.position.x + 'px'
             ,
             for item, idx in @state.logs
                 p
@@ -178,3 +187,5 @@ setInterval ->
         c 'new res', res
 , 3000
 
+c "hey"
+c Object.keys(Immutable)
