@@ -6,8 +6,6 @@
 
   http = require('http');
 
-  t.session.options = "SocketStream";
-
   c = function() {
     return console.log.apply(console, arguments);
   };
@@ -63,6 +61,8 @@
   t.publish.transport.use('redis', {
     secret: "SocketStream"
   });
+
+  t.session.options.secret = "wholeNewSecret";
 
   server = http.createServer(t.http.middleware);
 

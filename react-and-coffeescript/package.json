@@ -1,5 +1,6 @@
 {
     "dependencies": {
+        "immutable": "latest",
         "ss-stylus": "latest",
         "webpack": "latest",
         "node-uuid": "latest",

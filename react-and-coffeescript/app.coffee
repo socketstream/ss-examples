@@ -2,8 +2,6 @@
 
 t = require 'socketstream' ;http = require 'http'
 
-t.session.options = "SocketStream"
-
 c = -> console.log.apply console, arguments
 
 t.client.define 'basic',
@@ -59,10 +57,9 @@ t.client.formatters.add(require('ss-coffee'))
 t.client.formatters.add(require('ss-jade')) # not using templates so largely superfluous
 t.client.formatters.add(require('ss-stylus')) # using inline styles now so don't need
 
-
 t.session.store.use 'redis', {secret: "SocketStream"}
 t.publish.transport.use 'redis', {secret: "SocketStream"} # should be a secret here ?
-
+t.session.options.secret = "wholeNewSecret"
 server = http.createServer t.http.middleware
 
 t.start server
