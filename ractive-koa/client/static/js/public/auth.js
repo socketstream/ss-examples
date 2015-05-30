@@ -1,4 +1,5 @@
 $(function() {
+	'use strict';
 
 	$('#joinForm').on('submit', function() {
 		// TODO: throw in some happy.js validation
@@ -47,7 +48,7 @@ $(function() {
 		url: '/api/session',
 		type: 'GET'
 	}).done(function(session) {
-		console.log(session)
+		console.log(session);
 	}).fail(function(res) {
 		console.log('Error: ' + res.getResponseHeader('error'));
 	});
