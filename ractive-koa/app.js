@@ -57,7 +57,7 @@ ss.client.templateEngine.use(require('ss-ractive'), '/', {
 app.use(bodyParser());
 app.use(require('koa-static')(__dirname + '/client/static'));
 app.use(function*(next) {
-	yield ssMiddleware.bind(null, this.req, this.res);
+	yield ssMiddleware.bind(ssMiddleware, this.req, this.res);
 	yield next;
 });
 app.use(router.routes());
