@@ -9,9 +9,13 @@ var koa = require('koa');
 var bodyParser = require('koa-body-parser');
 var router = require('koa-router')();
 var koaJade = require('koa-jade');
-var connect = require('connect')();
 var app = koa();
-var redisStore, ssMiddleware, server;
+// var connect = require('connect')();
+// var ssMiddleware = connect.use(ss.http.middleware);
+var ssMiddleware = ss.http.middleware; // assignment important, since this is a getter
+var server;
+// var redisStore;
+
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> config
 
@@ -21,7 +25,8 @@ var devMode = config.get('env') === 'development';
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> db services
 
 require('./server/db/mongodb').connect(ss);
-connect.use(require('./server/db/redis').connect(ss));
+// connect.use(require('./server/db/redis').connect(ss));
+require('./server/db/redis').connect(ss);
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> HTML FORMATTER
 
@@ -50,10 +55,7 @@ ss.client.templateEngine.use(require('ss-ractive'), '/', {
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> ROUTING & KOA
 
 app.use(bodyParser());
-// app.keys = [config.get('session:secret')];
-// app.use(session(app));
 app.use(require('koa-static')(__dirname + '/client/static'));
-ssMiddleware = connect.use(ss.http.middleware);
 app.use(function*(next) {
 	yield ssMiddleware.bind(null, this.req, this.res);
 	yield next;

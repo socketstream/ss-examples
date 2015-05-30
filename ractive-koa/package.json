@@ -8,9 +8,6 @@
   },
   "dependencies": {
     "bcrypt": "^0.8.2",
-    "connect": "^3.3.5",
-    "connect-redis": "^2.3.0",
-    "express-session": "^1.11.2",
     "koa": "^0.18.1",
     "koa-body-parser": "^1.1.1",
     "koa-jade": "^1.0.1",
