@@ -43,4 +43,13 @@ $(function() {
 		});
 	});
 
+	$.ajax({
+		url: '/api/session',
+		type: 'GET'
+	}).done(function(session) {
+		console.log(session)
+	}).fail(function(res) {
+		console.log('Error: ' + res.getResponseHeader('error'));
+	});
+
 });

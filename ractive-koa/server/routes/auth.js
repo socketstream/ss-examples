@@ -2,6 +2,8 @@
 
 // var bcrypt = require('bcrypt');
 
+var _ = require('lodash');
+
 var User = require('../models/user').User;
 
 module.exports = function(ss, app, router) {
@@ -70,6 +72,33 @@ module.exports = function(ss, app, router) {
 	router.get('/api/signout', function*() {
 	});
 
+	// thunkify this synchronous callback
+	function saveSession(callback) {
+		/* jshint validthis:true */
+		var session = this.req.session;
+		session.save(function(err) {
+			if (err) {
+				session = {
+					status: 'failure',
+					reason: err
+				};
+			}
+			callback(null, session);
+		});
+	}
+
+	router.get('/api/session', function*() {
+		var session = this.req.session;
+		if (session && session.userId) {
+			session.type = 'existing session';
+		} else {
+			session.userId = _.uniqueId();
+			session.type = 'new session';
+			session = yield saveSession;
+		}
+		console.log(session);
+		this.body = session;
+	});
 
 		// 	url: '/api/join',
 		// 	type: 'post',
