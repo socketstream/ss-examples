@@ -8,8 +8,8 @@ $(function() {
 			type: 'post',
 			data: $(this).serialize()
 		}).done(function(data) {
-			console.log(data);
-			// window.location = '/';
+			// console.log(data);
+			window.location = '/';
 		}).fail(function(res) {
 			console.log(res);
 			console.log('Error: ' + res.getResponseHeader('error'));
@@ -42,15 +42,6 @@ $(function() {
 		}).fail(function(res) {
 			console.log('Error: ' + res.getResponseHeader('error'));
 		});
-	});
-
-	$.ajax({
-		url: '/api/session',
-		type: 'GET'
-	}).done(function(session) {
-		console.log(session);
-	}).fail(function(res) {
-		console.log('Error: ' + res.getResponseHeader('error'));
 	});
 
 });

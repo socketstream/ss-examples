@@ -15,7 +15,7 @@ exports.actions = function(req, res, ss) {
 				console.log(req.session);
 				res(req.session);
 			} else {
-				req.session.userId = _.uniqueId();
+				req.session.setUserId(_.uniqueId());
 				req.session.type = 'new session';
 				req.session.save(function(err) {
 					if (err) {
