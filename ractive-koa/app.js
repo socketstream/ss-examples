@@ -78,7 +78,6 @@ router.use(koaJade.middleware({
 }));
 
 require('./server/routes')(ss, app, router);
-// append ss middleware to the stack
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> PACK ASSETS
 
