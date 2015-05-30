@@ -10,11 +10,8 @@ var bodyParser = require('koa-body-parser');
 var router = require('koa-router')();
 var koaJade = require('koa-jade');
 var app = koa();
-// var connect = require('connect')();
-// var ssMiddleware = connect.use(ss.http.middleware);
 var ssMiddleware = ss.http.middleware; // assignment important, since this is a getter
 var server;
-// var redisStore;
 
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> config
@@ -25,7 +22,6 @@ var devMode = config.get('env') === 'development';
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> db services
 
 require('./server/db/mongodb').connect(ss);
-// connect.use(require('./server/db/redis').connect(ss));
 require('./server/db/redis').connect(ss);
 
 // - - - - - - - - - - - - - - - - - - - - - - - - >>>>> HTML FORMATTER
