@@ -21,7 +21,7 @@
 		console.info('%c SocketStream is ready.', 'color: #00c1a1;');
 
 		require('/app').setup();
-		ss.rpc('session.get'); // TEMPORARY, for testing only
+		// ss.rpc('session.get'); // TEMPORARY, for testing only
 
 	});
 

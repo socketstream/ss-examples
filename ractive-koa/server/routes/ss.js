@@ -1,5 +1,7 @@
 'use strict';
 
+var policies = require('./policies');
+
 module.exports = function(ss, app, router) {
 
 	ss.client.define('main', {
@@ -18,7 +20,7 @@ module.exports = function(ss, app, router) {
 	// 	res.serveClient('main');
 	// });
 
-	router.get('/', function*() {
+	router.get('/', policies.isLoggedIn, function*() {
 		this.res.serveClient('main');
 	});
 

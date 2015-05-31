@@ -3,15 +3,14 @@
 // var bcrypt = require('bcrypt');
 
 var _ = require('lodash');
-
 var User = require('../models/user').User;
+var policies = require('./policies');
 
 module.exports = function(ss, app, router) {
 
 	// - - - - - - - - - - - - - - - - - - - - - - - - >>>>> Pages
 
-	router.get('/signin', function*() {
-		console.log(this.req.session);
+	router.get('/signin', policies.isLoggedOut, function*() {
 		this.render('auth/signin', {}, true);
 	});
 
