@@ -84,6 +84,16 @@ userSchema.methods = {
 			last: this.last,
 			name: this.getName()
 		};
+	},
+
+	validatePassword: function(password, cb) {
+		bcrypt.compare(password, this.password, function(err, res) {
+			if (typeof cb === 'function') {
+				cb(err, res);
+			} else {
+				return res;
+			}
+		});
 	}
 
 };

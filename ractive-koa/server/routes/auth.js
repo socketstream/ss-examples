@@ -1,7 +1,5 @@
 'use strict';
 
-// var bcrypt = require('bcrypt');
-
 var _ = require('lodash');
 var User = require('../models/user').User;
 var policies = require('./policies');
@@ -66,10 +64,71 @@ module.exports = function(ss, app, router) {
 	});
 
 	router.post('/api/signin', function*() {
-		this.body = this.request.body;
+
+		var body = this.request.body;
+		var errors = [];
+		var user, session;
+
+		// TODO: validation!!!
+		if (!body.password && body.password.length < 7) {
+			errors.push('Passwords must be at least 6 characters.');
+		}
+		if (!body.username && body.username.length < 3) {
+			errors.push('Usernames must be at least 3 characters long');
+		}
+		// TODO: create DRY error function
+		if (errors.length) {
+			console.log(errors.join('\n').red.inverse);
+			this.body = {
+				error: true,
+				messages: errors
+			};
+		} else {
+			user = yield User.findOne({ username: body.username });
+			if (!user) {
+				// console.log(user);
+				errors.push('...Username already taken...');
+				console.log(errors.join('\n').red.inverse);
+				this.body = {
+					error: true,
+					messages: errors
+				};
+			} else {
+				console.log('...user found!...'.green.inverse, user);
+				var valid = yield user.validatePassword.bind(user, body.password);
+				session = this.req.session;
+				if (valid) {
+					session.userId = user._id;
+					session.user = yield user.getUser();
+					session = yield saveSession;
+					// console.log(session);
+					this.body = _.merge(session.user, {
+						id: user._id
+					});
+				} else {
+					if (session.userId) {
+						delete session.userId;
+						session = yield saveSession;
+					}
+					this.body = {
+						error: true,
+						messages: ['Invalid password.']
+					};
+				}
+			}
+		}
+
 	});
 
-	router.get('/api/signout', function*() {});
+	router.get('/api/signout', function*() {
+		var session = this.req.session;
+		if (session.userId) {
+			delete session.userId;
+			session = yield saveSession;
+		}
+		console.log('...session logged out...'.green.inverse);
+		this.body = session;
+	});
 
 };
 

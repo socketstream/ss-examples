@@ -25,7 +25,11 @@ $(function() {
 			type: 'post',
 			data: $(this).serialize()
 		}).done(function(data) {
-			window.location = '/';
+			if (data.error) {
+				console.log(data.messages);
+			} else {
+				window.location = '/';
+			}
 		}).fail(function(res) {
 			console.log('Error: ' + res.getResponseHeader('error'));
 			// TODO: deal with incorrect user
@@ -38,7 +42,7 @@ $(function() {
 			url: '/api/signout',
 			type: 'GET'
 		}).done(function(data) {
-			window.location = '/';
+			console.log(data);
 		}).fail(function(res) {
 			console.log('Error: ' + res.getResponseHeader('error'));
 		});
