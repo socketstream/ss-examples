@@ -8,7 +8,12 @@
     "node": ">= 0.10.0"
   },
   "dependencies": {
+    "connect-redis": "^2.5.1",
+    "conventions": "^0.2.1",
+    "cookie-parser": "^1.4.0",
     "es6-shim": "0.33.x",
+    "express": "^4.13.3",
+    "express-session": "^1.11.3",
     "normalize.css": "3.0.x",
     "socketstream": "0.5.x",
     "sockjs": "~0.3.15",
