@@ -1,0 +1,24 @@
+{
+  "name": "ss-test",
+  "description": "An awesome real time application",
+  "version": "0.0.1",
+  "author": "Me <me@mydomain.com>",
+  "private": true,
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "dependencies": {
+    "es6-shim": "0.33.x",
+    "normalize.css": "3.0.x",
+    "socketstream": "0.5.x",
+    "sockjs": "~0.3.15",
+    "ss-hogan": "0.1.x"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "devDependencies": {
+    "jade": "^1.11.0",
+    "node-sass": "^3.3.3"
+  }
+}
