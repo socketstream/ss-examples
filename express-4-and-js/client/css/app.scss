@@ -1,6 +1,4 @@
-/* Example CSS file */
-
-/* Main */
+// Main 
 
 body,
 html {
@@ -8,7 +6,7 @@ html {
 }
 body {
   font: normal 1em sans-serif;
-  background: linear-gradient(top, #eeeeee, #ffffff);
+  background: linear-gradient(to left top, #eeeeee, #ffffff);
   text-align: center;
 }
 p {
@@ -28,7 +26,7 @@ main {
   padding: 50px;
 }
 
-/* Quick Chat Demo */
+// Quick Chat Demo 
 
 #demo {
   border: 1px solid #ccc;
