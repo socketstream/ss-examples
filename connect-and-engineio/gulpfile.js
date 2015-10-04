@@ -16,7 +16,7 @@ var gulp = require('gulp'),
 
   // set specific start-server and other defaults
   require('./app');
-  ss.tasks.defaults();  
+  ss.tasks.defaults();
 
   ss.client.set({
     serveDebugInfo: true
@@ -37,13 +37,11 @@ gulp.task('serve-debug', function() {
 
   // Environment dependent middleware
   if (ss.env === 'development') {
-    require('express-debug')(app, {/* settings */});
     // Disable views cache
-    app.set('view cache', false);
+    // app.set('view cache', false);
   } else if (ss.env === 'production') {
     //TODO should this be realised in server script running in production?
     app.locals.cache = 'memory';
   }
 
 });
-

@@ -11,7 +11,7 @@ var ss = require('socketstream'),
 var config = {
 	port: 3000,
 	sessionSecret: 'not much of a secret'
-};	
+};
 
 // Define a single-page client called 'main'
 ss.client.define('main', {
@@ -55,30 +55,12 @@ ss.task('start-server', function(done) {
   app.locals.basedir = path.join(__dirname, 'client', 'views');
   app.set('view engine', 'jade');
 
-  // CookieParser should be above session
-  app.use(cookieParser(config.sessionSecret));
-
-  // require routers
+	// require routers
   conventions.routers(__dirname, function(router,name) {
     var defaultBase = path.dirname(name).substring(1);
     app.use(router.baseRoute || defaultBase,router);
   });
 
-  // no server session
-  app.use(session({
-    cookie: { path: '/', httpOnly: false, secure: false, maxAge: null },
-    resave: true,
-    saveUninitialized: true,
-    secret: config.sessionSecret,
-    store: new (RedisStore(session))({
-      host: 'localhost',
-      port: 6379
-    })
-  }));
-
-  ss.http.set({
-    strategy: 'minimal'
-  });
   app.use('/',ss.http.middleware);
 
   // Start SocketStream

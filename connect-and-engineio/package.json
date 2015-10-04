@@ -26,7 +26,6 @@
     "start": "node app.js"
   },
   "devDependencies": {
-    "express-debug": "^1.1.1",
     "gulp": "^3.9.0",
     "gulp-cached": "^1.1.0",
     "gulp-concat": "^2.6.0",
