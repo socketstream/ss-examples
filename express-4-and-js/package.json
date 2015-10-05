@@ -16,6 +16,7 @@
     "express-session": "^1.11.3",
     "normalize.css": "3.0.x",
     "socketstream": "0.5.x",
+    "socketstream-cookie-session": "0.5.x",
     "sockjs": "~0.3.15",
     "sockjs-client": "~1.0.3",
     "ss-hogan": "0.1.x"
@@ -36,5 +37,9 @@
     "gulp-uglify": "^1.4.1",
     "jade": "^1.11.0",
     "node-sass": "^3.3.3"
+  },
+  "resolved": {
+    "socketstream": "https://github.com/socketstream/socketstream#next",
+    "socketstream-cookie-session": "https://github.com/socketstream/socketstream-cookie-session#master"
   }
 }

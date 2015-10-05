@@ -35,8 +35,11 @@ ss.client.formatters.add('jade', {
 ss.client.templateEngine.use(require('ss-hogan'));
 
 // Minimize and pack assets if you type: SS_ENV=production node app.js
-if (ss.env === 'production') ss.client.packAssets();
-
+if (ss.env === 'production') {
+  ss.client.servePacked();
+  ss.session.store.use('redis');
+  ss.publish.transport.use('redis');
+}
 ss.ws.transport.use('sockjs');
 
 
