@@ -3,7 +3,6 @@
 var ss = require('socketstream'),
 	express = require('express'),
 	RedisStore = require('connect-redis'),
-	session = require('express-session'),
 	conventions = require('conventions'),
 	cookieParser = require('cookie-parser'),
 	path = require('path');

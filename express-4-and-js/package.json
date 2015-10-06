@@ -13,9 +13,8 @@
     "cookie-parser": "^1.4.0",
     "es6-shim": "0.33.x",
     "express": "^4.13.3",
-    "express-session": "^1.11.3",
     "normalize.css": "3.0.x",
-    "socketstream": "0.5.x",
+    "socketstream": "^0.5.0",
     "socketstream-cookie-session": "0.5.x",
     "sockjs": "~0.3.15",
     "sockjs-client": "~1.0.3",
@@ -25,6 +24,7 @@
     "start": "node app.js"
   },
   "devDependencies": {
+    "chokidar": "^1.2.0",
     "express-debug": "^1.1.1",
     "gulp": "^3.9.0",
     "gulp-cached": "^1.1.0",
