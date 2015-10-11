@@ -2,6 +2,8 @@
 
 var ss = require('socketstream'),
 	express = require('express'),
+  compression = require('compression'),
+  favicon = require('serve-favicon'),
 	RedisStore = require('connect-redis'),
 	conventions = require('conventions'),
 	cookieParser = require('cookie-parser'),
@@ -31,7 +33,7 @@ ss.client.formatters.add('jade', {
 });
 
 // Use server-side compiled Hogan (Mustache) templates. Others engines available
-ss.client.templateEngine.use(require('ss-hogan'));
+ss.client.templateEngine.use('ss-hogan');
 
 // Minimize and pack assets if you type: SS_ENV=production node app.js
 if (ss.env === 'production') {
@@ -57,13 +59,18 @@ ss.task('start-server', function(done) {
   app.locals.basedir = path.join(__dirname, 'client', 'views');
   app.set('view engine', 'jade');
 
+  app.use(compression());
+  app.use(favicon(ss.client.faviconPath));
+
 	// require routers
   conventions.routers(__dirname, function(router,name) {
     var defaultBase = path.dirname(name).substring(1);
     app.use(router.baseRoute || defaultBase,router);
   });
 
-  app.use('/',ss.http.middleware);
+  // app.use('/',ss.http.middleware);
+  app.use(ss.http.session.middleware);
+  app.use(ss.http.cached.middleware);
 
   // Start SocketStream
   var httpServer = app.listen(config.port, function() {
