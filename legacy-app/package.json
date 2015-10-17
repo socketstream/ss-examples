@@ -8,7 +8,13 @@
   "dependencies": {
     "normalize.css": "3.0.x",
     "es6-shim": "0.33.x",
-    "socketstream": "0.4.4",
+    "compression": "~1.6.0",
+    "connect-redis": "~2.5.1",
+    "cookie-parser": "~1.4.0",
+    "express-redis-cache": "~0.1.8",
+    "serve-favicon": "2.3.0",
+    "socketstream": "0.5.x",
+    "socketstream-cookie-session": "0.5.x",
     "engine.io": "1.5.2",
     "engine.io-client": "1.5.2",
     "ss-hogan": "0.1.x"
