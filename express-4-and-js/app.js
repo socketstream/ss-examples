@@ -2,8 +2,8 @@
 
 var ss = require('socketstream'),
 	express = require('express'),
-  compression = require('compression'),
-  favicon = require('serve-favicon'),
+  	compression = require('compression'),
+  	favicon = require('serve-favicon'),
 	RedisStore = require('connect-redis'),
 	conventions = require('conventions'),
 	cookieParser = require('cookie-parser'),
@@ -49,7 +49,7 @@ ss.ws.transport.use('sockjs');
  *
  * @param config Should be the settings object exported, but can be stubbed or tweaked.
  */
-ss.task('start-server', function(done) {
+ss.task('start-server', ['load-api'], function(done) { // the load-api dependency may be renamed in neare future
   var app = ss.app = express();
 
   //express settings
