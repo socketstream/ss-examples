@@ -10,7 +10,7 @@ var ss = require('socketstream'),
 var config = {
 	port: 3000,
 	sessionSecret: 'not much of a secret'
-};	
+};
 
 // Define a single-page client called 'main'
 ss.client.define('main', {
@@ -21,9 +21,7 @@ ss.client.define('main', {
 });
 
 // Serve this client on the root URL
-ss.http.route('/', function(req, res){
-  res.serveClient('main');
-});
+ss.http.route('/').serveClient('main');
 
 ss.client.formatters.add('sass');
 ss.client.formatters.add('jade', {
@@ -42,28 +40,28 @@ if (ss.env === 'production') ss.client.packAssets();
  * @param config Should be the settings object exported, but can be stubbed or tweaked.
  */
 ss.task('start-server', function(done) {
- 
+
   var app = connect()
-   
-  // gzip/deflate outgoing responses 
+
+  // gzip/deflate outgoing responses
   var compression = require('compression')
   app.use(compression())
-   
-  // store session state in browser cookie 
+
+  // store session state in browser cookie
   var cookieSession = require('cookie-session')
   app.use(cookieSession({
       keys: ['secret1', 'secret2']
   }))
-   
-  // parse urlencoded request bodies into req.body 
+
+  // parse urlencoded request bodies into req.body
   var bodyParser = require('body-parser')
   app.use(bodyParser.urlencoded())
-   
-  // respond to all requests 
+
+  // respond to all requests
   app.use(function(req, res){
     res.end('Hello from Connect!\n');
   })
- 
+
 
   // // CookieParser should be above session
   // app.use(cookieParser(config.sessionSecret));
@@ -80,9 +78,6 @@ ss.task('start-server', function(done) {
   //   })
   // }));
 
-  ss.http.set({
-    strategy: 'minimal'
-  });
   app.use('/',ss.http.middleware);
 
   // Start SocketStream

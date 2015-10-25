@@ -23,7 +23,7 @@
     "ss-hogan": "0.1.x"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "DEBUG=socketstream,session node app.js"
   },
   "devDependencies": {
     "gulp": "^3.9.0",

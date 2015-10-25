@@ -24,7 +24,7 @@
     "ss-hogan": "0.1.x"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "DEBUG=socketstream,session node app.js"
   },
   "devDependencies": {
     "chokidar": "^1.2.0",

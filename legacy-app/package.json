@@ -9,6 +9,7 @@
     "normalize.css": "3.0.x",
     "es6-shim": "0.33.x",
     "compression": "~1.6.0",
+    "connect": "~3.4.0",
     "connect-redis": "~2.5.1",
     "cookie-parser": "~1.4.0",
     "express-redis-cache": "~0.1.8",
