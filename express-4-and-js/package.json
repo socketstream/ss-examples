@@ -24,6 +24,9 @@
     "ss-hogan": "0.1.x"
   },
   "scripts": {
+    "debug": "DEBUG=socketstream,session iron-node app.js",
+    "debug-production": "DEBUG=socketstream,session SS_ENV=production iron-node app.js",
+    "start-production": "DEBUG=socketstream,session,bundler,http SS_ENV=production node app.js",
     "start": "DEBUG=socketstream,session node app.js"
   },
   "devDependencies": {

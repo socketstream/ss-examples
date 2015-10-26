@@ -41,7 +41,7 @@ if (ss.env === 'production') ss.client.packAssets();
  */
 ss.task('start-server', function(done) {
 
-  var app = connect()
+  var app = ss.http.middleware = connect();
 
   // gzip/deflate outgoing responses
   var compression = require('compression')
@@ -60,31 +60,14 @@ ss.task('start-server', function(done) {
   // respond to all requests
   app.use(function(req, res){
     res.end('Hello from Connect!\n');
-  })
+  });
 
-
-  // // CookieParser should be above session
-  // app.use(cookieParser(config.sessionSecret));
-
-  // // no server session
-  // app.use(session({
-  //   cookie: { path: '/', httpOnly: false, secure: false, maxAge: null },
-  //   resave: true,
-  //   saveUninitialized: true,
-  //   secret: config.sessionSecret,
-  //   store: new (RedisStore(session))({
-  //     host: 'localhost',
-  //     port: 6379
-  //   })
-  // }));
-
-  app.use('/',ss.http.middleware);
+  // app.use('/',ss.http.middleware);
+  app.use(ss.http.session.middleware);
+  app.use(ss.http.cached.middleware);
 
   // Start SocketStream
-  http.createServer(app).listen(config.port, function() {
-    ss.stream(httpServer);
-    done();
-  });
+  ss.ws.listen(config.port, done);
 });
 
 // direct call just starts the server (unless running with gulp)

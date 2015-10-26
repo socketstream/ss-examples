@@ -50,7 +50,7 @@ ss.ws.transport.use('sockjs');
  * @param config Should be the settings object exported, but can be stubbed or tweaked.
  */
 ss.task('start-server', ['load-api'], function(done) { // the load-api dependency may be renamed in neare future
-  var app = ss.app = express();
+  var app = ss.http.middleware = express();
 
   //express settings
   app.disable('x-powered-by');
@@ -73,10 +73,7 @@ ss.task('start-server', ['load-api'], function(done) { // the load-api dependenc
   app.use(ss.http.cached.middleware);
 
   // Start SocketStream
-  var httpServer = app.listen(config.port, function() {
-    ss.stream(httpServer);
-    done();
-  });
+  ss.ws.listen(config.port, done);
 
   console.info('Routers:'.grey, conventions.routers().join(' ').replace(/\.\//g,'').replace(/\.router\.js/g,'') || 'None.');
 });

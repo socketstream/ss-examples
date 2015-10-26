@@ -30,7 +30,7 @@ gulp.task('live', ['load-socketstream','live-assets','live-reload','serve','serv
 
 gulp.task('serve-debug', function() {
   var ss = require('socketstream'),
-      app = ss.app;
+      app = ss.http.middleware;
 
   // Showing stack errors
   app.set('showStackError', true);
