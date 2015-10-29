@@ -8,9 +8,10 @@ var ss = require('socketstream'),
 	path = require('path');
 
 var config = {
-	port: 3000,
 	sessionSecret: 'not much of a secret'
 };
+
+ss.http.set({ port:3000 });
 
 // Define a single-page client called 'main'
 ss.client.define('main', {
@@ -39,7 +40,7 @@ if (ss.env === 'production') ss.client.packAssets();
  *
  * @param config Should be the settings object exported, but can be stubbed or tweaked.
  */
-ss.task('start-server', function(done) {
+ss.task('application', function() {
 
   var app = ss.http.middleware = connect();
 
@@ -65,9 +66,6 @@ ss.task('start-server', function(done) {
   // app.use('/',ss.http.middleware);
   app.use(ss.http.session.middleware);
   app.use(ss.http.cached.middleware);
-
-  // Start SocketStream
-  ss.ws.listen(config.port, done);
 });
 
 // direct call just starts the server (unless running with gulp)
