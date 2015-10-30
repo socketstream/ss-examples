@@ -1,9 +1,9 @@
 // My SocketStream 0.5 app
 
 var ss = require('socketstream'),
-	express = require('express'),
-  	compression = require('compression'),
-  	favicon = require('serve-favicon'),
+	express = require('socketstream/express'),
+	compression = require('compression'),
+	favicon = require('serve-favicon'),
 	RedisStore = require('connect-redis'),
 	conventions = require('conventions'),
 	cookieParser = require('cookie-parser'),
@@ -50,7 +50,7 @@ ss.ws.transport.use('sockjs');
  * Start server with config
  */
 ss.task('application', function() {
-  var app = ss.http.middleware = express();
+  var app = express();
 
   //express settings
   app.locals.basedir = path.join(__dirname, 'client', 'views');
