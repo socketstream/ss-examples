@@ -8,18 +8,15 @@
     "node": ">= 0.10.0"
   },
   "dependencies": {
-    "connect": "~3.4.0",
     "body-parser": "*",
     "compression": "*",
-    "cookie-session": "*",
-    "connect-redis": "^2.5.1",
-    "cookie-parser": "^1.4.0",
-    "express-session": "^1.11.3",
+    "connect": "~3.4.0",
+    "engine.io": "~1.5.2",
+    "engine.io-client": "~1.5.2",
     "es6-shim": "0.33.x",
     "normalize.css": "3.0.x",
     "socketstream": "0.5.x",
-    "engine.io": "~1.5.2",
-    "engine.io-client": "~1.5.2",
+    "socketstream-cookie-session": "0.5.x",
     "ss-hogan": "0.1.x"
   },
   "scripts": {

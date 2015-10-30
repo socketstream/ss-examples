@@ -2,14 +2,29 @@
 
 var ss = require('socketstream'),
 	connect = require('connect'),
-	RedisStore = require('connect-redis'),
-	session = require('express-session'),
-	cookieParser = require('cookie-parser'),
+	compression = require('compression'),
+	bodyParser = require('body-parser'),
+	app = ss.http.middleware = connect(),
 	path = require('path');
 
 var config = {
 	sessionSecret: 'not much of a secret'
 };
+
+// gzip/deflate outgoing responses
+app.use(compression());
+
+// parse urlencoded request bodies into req.body
+app.use(bodyParser.urlencoded());
+
+// app.use('/',ss.http.middleware);
+app.use(ss.http.session.middleware);
+app.use(ss.http.cached.middleware);
+
+// respond to all requests
+app.use(function(req, res){
+	res.end('Hello from Connect!\n');
+});
 
 ss.http.set({ port:3000 });
 
@@ -33,40 +48,10 @@ ss.client.formatters.add('jade', {
 ss.client.templateEngine.use(require('ss-hogan'));
 
 // Minimize and pack assets if you type: SS_ENV=production node app.js
-if (ss.env === 'production') ss.client.packAssets();
-
-/**
- * Start server with config
- *
- * @param config Should be the settings object exported, but can be stubbed or tweaked.
- */
-ss.task('application', function() {
-
-  var app = ss.http.middleware = connect();
-
-  // gzip/deflate outgoing responses
-  var compression = require('compression')
-  app.use(compression())
-
-  // store session state in browser cookie
-  var cookieSession = require('cookie-session')
-  app.use(cookieSession({
-      keys: ['secret1', 'secret2']
-  }))
-
-  // parse urlencoded request bodies into req.body
-  var bodyParser = require('body-parser')
-  app.use(bodyParser.urlencoded())
-
-  // respond to all requests
-  app.use(function(req, res){
-    res.end('Hello from Connect!\n');
-  });
-
-  // app.use('/',ss.http.middleware);
-  app.use(ss.http.session.middleware);
-  app.use(ss.http.cached.middleware);
-});
+if (ss.env === 'production') {
+	ss.client.packAssets();
+	app.locals.cache = 'memory';
+}	
 
 // direct call just starts the server (unless running with gulp)
 ss.start();
