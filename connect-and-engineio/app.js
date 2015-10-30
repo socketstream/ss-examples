@@ -7,9 +7,10 @@ var ss = require('socketstream'),
 	app = ss.http.middleware = connect(),
 	path = require('path');
 
-var config = {
-	sessionSecret: 'not much of a secret'
-};
+ss.http.set({ port:3000 });
+ss.session.options.secret = 'secret chinese cookie';
+ss.http.settings.secure = true;
+
 
 // gzip/deflate outgoing responses
 app.use(compression());
@@ -25,8 +26,6 @@ app.use(ss.http.cached.middleware);
 app.use(function(req, res){
 	res.end('Hello from Connect!\n');
 });
-
-ss.http.set({ port:3000 });
 
 // Define a single-page client called 'main'
 ss.client.define('main', {
@@ -51,7 +50,7 @@ ss.client.templateEngine.use(require('ss-hogan'));
 if (ss.env === 'production') {
 	ss.client.packAssets();
 	app.locals.cache = 'memory';
-}	
+}
 
 // direct call just starts the server (unless running with gulp)
 ss.start();
