@@ -1,4 +1,5 @@
 var gulp = require('gulp'),
+    ss = require('socketstream/gulp'),
     path = require('path'),
     rename = require('gulp-rename'),
     mocha = require('gulp-mocha'),
@@ -9,24 +10,14 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     flatten = require('gulp-flatten');
 
-// use the gulp orchestrator
-(function(ss) {
-  ss.tasks.use(gulp);
-  ss.start = function() {}; // may go into ss.useGulp(gulp) with line above
+require('./app');
 
-  // set specific start-server and other defaults
-  require('./app');
-  ss.tasks.defaults();
-
-  ss.client.set({
-    serveDebugInfo: true
-  });
-
-})(require('socketstream'));
-
+ss.client.set({
+  serveDebugInfo: true
+});
 
 gulp.task('default', ['pack-all']);
-gulp.task('live', ['load-socketstream','live-assets','live-reload','serve','serve-debug']);
+gulp.task('live', ['live-assets','live-reload','serve','serve-debug']);
 
 gulp.task('serve-debug', function() {
   var ss = require('socketstream'),
@@ -39,9 +30,6 @@ gulp.task('serve-debug', function() {
   if (ss.env === 'development') {
     // Disable views cache
     // app.set('view cache', false);
-  } else if (ss.env === 'production') {
-    //TODO should this be realised in server script running in production?
-    app.locals.cache = 'memory';
   }
 
 });
