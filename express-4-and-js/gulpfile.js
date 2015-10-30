@@ -18,16 +18,4 @@ ss.client.set({
 
 
 gulp.task('default', ['pack-all']);
-gulp.task('live', ['live-assets','live-reload','serve','serve-debug']);
-
-gulp.task('serve-debug', function() {
-  var ss = require('socketstream');
-      app = ss.http.middleware;
-
-  // Showing stack errors
-  app.set('showStackError', true);
-  // Environment dependent middleware
-  require('express-debug')(app, {/* settings */});
-  // Disable views cache
-  app.set('view cache', false);
-});
+gulp.task('live', ['live-assets','live-reload','serve']);

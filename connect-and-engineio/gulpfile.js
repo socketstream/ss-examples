@@ -23,9 +23,6 @@ gulp.task('serve-debug', function() {
   var ss = require('socketstream'),
       app = ss.http.middleware;
 
-  // Showing stack errors
-  app.set('showStackError', true);
-
   // Environment dependent middleware
   if (ss.env === 'development') {
     // Disable views cache
