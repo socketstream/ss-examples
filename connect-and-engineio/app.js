@@ -8,8 +8,9 @@ var ss = require('socketstream'),
 	path = require('path');
 
 ss.http.set({ port:3000 });
-ss.session.options.secret = 'secret chinese cookie';
-ss.http.settings.secure = true;
+//TODO make this work
+// ss.session.options.secret = 'secret chinese cookie';
+// ss.http.settings.secure = true;
 
 
 // gzip/deflate outgoing responses

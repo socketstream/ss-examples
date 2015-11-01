@@ -9,10 +9,10 @@ var ss = require('socketstream'),
 	cookieParser = require('cookie-parser'),
 	path = require('path');
 
-var config = {
-	sessionSecret: 'not much of a secret'
-};
 ss.http.set({ port: 3000 });
+//TODO make this work
+// ss.session.options.secret = 'secret chinese cookie';
+// ss.http.settings.secure = true;
 
 // Define a single-page client called 'main'
 ss.client.define('main', {
@@ -46,9 +46,6 @@ if (ss.env === 'production') {
 ss.ws.transport.use('sockjs');
 
 
-/**
- * Start server with config
- */
 ss.task('application', function() {
   var app = express();
 
