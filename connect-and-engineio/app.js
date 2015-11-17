@@ -17,7 +17,7 @@ ss.http.set({ port:3000 });
 app.use(compression());
 
 // parse urlencoded request bodies into req.body
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended:false }));
 
 // app.use('/',ss.http.middleware);
 app.use(ss.http.session.middleware);
@@ -46,6 +46,8 @@ ss.client.formatters.add('jade', {
 
 // Use server-side compiled Hogan (Mustache) templates. Others engines available
 ss.client.templateEngine.use(require('ss-hogan'));
+
+ss.ws.transport.use('engineio',{ client: { localStorage:true }});
 
 // Minimize and pack assets if you type: SS_ENV=production node app.js
 if (ss.env === 'production') {

@@ -23,6 +23,7 @@
     "start": "DEBUG=socketstream,socketstream:session node app.js"
   },
   "devDependencies": {
+    "chokidar": "^1.2.0",
     "gulp": "^3.9.0",
     "gulp-cached": "^1.1.0",
     "gulp-concat": "^2.6.0",
