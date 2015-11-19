@@ -9,7 +9,7 @@ var ss = require('socketstream'),
 	cookieParser = require('cookie-parser'),
 	path = require('path');
 
-ss.http.set({ port: 3000 });
+ss.http.set({ port: 3100 });
 //TODO make this work
 // ss.session.options.secret = 'secret chinese cookie';
 // ss.http.settings.secure = true;
