@@ -43,11 +43,18 @@ if (ss.env === 'production') {
 	//TODO should this be realised in server script running in production?
 	app.locals.cache = 'memory';
 }
-ss.ws.transport.use('sockjs');
+ss.ws.transport.use('sockjs', {
+	client: {
+		cookie:true
+	},
+	server: {
+		jsessionid: true
+	}
+});
 
 
 ss.task('application', function() {
-  var app = express();
+  var app = ss.http.middleware = express();
 
   //express settings
   app.locals.basedir = path.join(__dirname, 'client', 'views');
