@@ -13,7 +13,7 @@
     "koa-jade": "^1.0.1",
     "koa-router": "^4.3.2",
     "koa-static": "^1.4.9",
-    "lodash": "^3.8.0",
+    "lodash": "^3.10.1",
     "mongoose": "^4.0.2",
     "nconf": "^0.7.1",
     "socketstream": ">= 0.4.x",
