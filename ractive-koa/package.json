@@ -1,27 +1,27 @@
 {
-  "name": "ractive-koa",
-  "description": "An awesome real time application",
-  "version": "0.0.1",
-  "author": "Robert Hall <@arxpoetica>",
-  "engines": {
-    "node": ">= 0.12.x"
-  },
-  "dependencies": {
-    "bcrypt": "^0.8.2",
-    "koa": "^0.18.1",
-    "koa-body-parser": "^1.1.1",
-    "koa-jade": "^1.0.1",
-    "koa-router": "^4.3.2",
-    "koa-static": "^1.4.9",
-    "lodash": "^3.10.1",
-    "mongoose": "^4.0.2",
-    "nconf": "^0.7.1",
-    "socketstream": ">= 0.4.x",
-    "ss-jade": "https://github.com/arxpoetica/ss-jade/tarball/master",
-    "ss-ractive": "0.x.x",
-    "ss-stylus": "^0.1.9"
-  },
-  "scripts": {
-    "start": "node app.js"
-  }
+    "name": "ractive-koa",
+    "description": "An awesome real time application",
+    "version": "0.0.1",
+    "author": "Robert Hall <@arxpoetica>",
+    "engines": {
+        "node": ">= 0.12.x"
+    },
+    "dependencies": {
+        "bcrypt": "^0.8.2",
+        "koa": "^0.18.1",
+        "koa-body-parser": "^1.1.1",
+        "koa-jade": "^1.0.1",
+        "koa-router": "^4.3.2",
+        "koa-static": "^1.4.9",
+        "lodash": "^3.10.1",
+        "mongoose": "^4.0.2",
+        "nconf": "^0.7.1",
+        "socketstream": ">= 0.4.x",
+        "ss-jade": "^0.1.3",
+        "ss-ractive": "0.x.x",
+        "ss-stylus": "^0.1.9"
+    },
+    "scripts": {
+        "start": "node app.js"
+    }
 }
