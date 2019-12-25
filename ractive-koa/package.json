@@ -24,6 +24,6 @@
         "start": "node app.js"
     },
     "devDependencies": {
-        "lodash": "^3.10.1"
+        "lodash": "^4.17.13"
     }
 }
