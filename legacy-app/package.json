@@ -17,7 +17,7 @@
     "socketstream": "0.5.x",
     "socketstream-cookie-session": "0.5.x",
     "engine.io": "1.5.2",
-    "engine.io-client": "1.5.2",
+    "engine.io-client": "3.4.0",
     "ss-hogan": "0.1.x"
   },
   "devDependencies": {
