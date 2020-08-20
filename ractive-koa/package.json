@@ -7,7 +7,7 @@
         "node": ">= 0.12.x"
     },
     "dependencies": {
-        "bcrypt": "^3.0.6",
+        "bcrypt": "^5.0.0",
         "koa": "^0.18.1",
         "koa-body-parser": "^1.1.1",
         "koa-jade": "^1.0.1",
